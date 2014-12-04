@@ -1,0 +1,116 @@
+<div id="wrapper">
+
+  <div id="page-wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Penjadwalan</h1>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.widget-row -->
+    <div class="row">
+      <div class="col-lg-4 col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-2">
+                <i class="fa fa-gear fa-spin fa-3x"></i>
+              </div>
+              <div class="col-xs-10 text-right">
+                <div class="huge">{{ widgetval.active }}</div>
+                <div>Suplai listrik aktif</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="panel panel-primary ">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-2">
+                <i class="fa fa-gear fa-3x"></i>
+              </div>
+              <div class="col-xs-10 text-right">
+                <div class="huge">{{ widgetval.inactive }}</div>
+                <div>Suplai listrik inaktif</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="panel panel-primary ">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-2">
+                <i class="fa fa-clock-o fa-3x"></i>
+              </div>
+              <div class="col-xs-10 text-right">
+                <div class="huge">{{ widgetval.scheduled }}</div>
+                <div>Suplai terjadwal</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div> 
+    <!-- /.widget-row -->
+
+    <!-- /.usage-row -->
+    <div class="row">
+      <!-- /.usage-col -->
+      <div class="col-lg-12 col-md-12 connectedSortable">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-th fa-fw"></i> Target Suplai Listrik 
+            <div class="pull-right">
+            </div>
+          </div><!-- /.panel-header -->
+          <div class="panel-body no-padding">
+            <table ng-table="tableParams" show-filter="true" class="table">
+              <tr ng-repeat="item in $data">
+                <td data-title="'Pilihan'" style="text-align: left; vertical-align:middle" class="col-sm-1 col-md-1 col-lg-1">
+                  <input type="checkbox" ng-model="checkboxes.items[item.id]" />
+                </td>
+                <td style="vertical-align:middle" data-title="'Nama'" class="col-sm-2 col-md-2 col-lg-2" sortable="'name'" filter="{ 'name': 'text' }">
+                  {{item.name}}
+                </td>
+                <td style="vertical-align:middle;text-align:center" data-title="'Status'" class="col-sm-2 col-md-2 col-lg-2" sortable="status">
+                  <i class="fa fa-gear fa-2x" ng-class="{true:'fa-spin table-on', false:''}[item.status]"></i>
+                </td>
+                <td style="vertical-align:middle;text-align:center" data-title="'Atur'" class="col-sm-2 col-md-2 col-lg-2">
+                  <button type="button" class="btn btn-default btn-primary" ng-click="open(item.id)">
+                    <span class="glyphicon glyphicon-time"></span> Atur jadwal
+                  </button>
+                </td>
+                <td style="vertical-align:middle;text-align:center" data-title="'Hapus'" class="col-sm-2 col-md-2 col-lg-2">
+                  <button type="button" class="btn btn-default btn-danger" ng-click="delete(item.id)">
+                    <span class="glyphicon glyphicon-trash"></span> Hapus jadwal
+                  </button>
+                </td>                
+              </tr>
+            </table><hr>
+            <div class="pull-left">            
+              <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" /> Pilih sekaligus</input>
+            </div>
+            <div class="pull-right">
+              <button type="button" class="btn btn-default btn-success" style="margin-top:-5px" ng-click="open(-1)">
+                <span class="glyphicon glyphicon-time"></span> Atur sekaligus
+              </button>
+               <button type="button" class="btn btn-default btn-danger" style="margin-top:-5px" ng-click="delete(-1)">
+                <span class="glyphicon glyphicon-trash"></span> Hapus sekaligus
+              </button>             
+            </div>
+          </div><!-- /.panel-body -->
+        </div><!-- /.panel-usage -->
+      </div><!-- /.usage-col -->
+    </div> <!-- /.row-usage -->
+
+  <div id="babi" role="main">
+  </div>
+
+  </div>
+  <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->

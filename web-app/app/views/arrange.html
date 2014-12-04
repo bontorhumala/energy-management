@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h3 class="modal-title">Jadwal Suplai {{ item.name }}</h3>
+</div>
+<div class="modal-body" style="text-align:center">
+  <div class="row" ng-repeat="schedule in schedules">
+    <div class="col-lg-1 col-md-1" style="text-align:left">{{ schedule.day }}</div>
+    <div class="col-lg-10 col-md-10">
+      <time-picker></time-picker>
+    </div>
+    <div class="col-lg-1 col-md-1" style="text-align:left">
+      <button type="button" class="btn btn-default btn-primary" ng-click="">
+          <span class="fa fa-copy"></span>
+      </button>
+    </div>    
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger" ng-click="delete()">Hapus seluruhnya</button>  
+  <button class="btn btn-primary" ng-click="close()">Simpan jadwal</button>
+</div>

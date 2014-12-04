@@ -1,0 +1,118 @@
+@import url(http://fonts.googleapis.com/css?family=Share+Tech|Syncopate);
+
+/* Empty. Add your own CSS if you like */
+svg {
+  font-family: 'Share Tech', serif;
+  color: gray;
+}
+
+.x.axis line {
+  stroke: #fff;
+}
+
+.y.axis line {
+  stroke: #fff;
+}
+
+.area {
+    fill: lightsteelblue;
+    stroke-width: 0;
+}
+
+.line {
+  fill: none;
+  stroke: goldenrod;
+  stroke-width: 1.5px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: slategray;
+  shape-rendering: crispEdges;
+}
+
+.circleBase {
+  border-radius: 50%;
+  background-color: slategray;
+  color: white;
+  margin: auto;  
+}
+
+.schedule-center {
+  margin: auto;
+}
+
+.small {
+  width: 80px;
+  height: 80px;
+  background: none;
+  font-size: 25px;
+  border: 3px solid white;
+}
+
+.medium {
+  width: 70px;
+  height: 70px;
+  font-size: 40px;
+  background-color: slategray;
+  border: 3px solid slategray;
+}
+
+.power-medium {
+  color: slategray;
+  margin: auto;  
+  margin-top: 50px;    
+  font-family: 'Share Tech', serif;  
+  background: none;
+  font-size: 80px;
+}
+
+.shadow {
+  color: slategray;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.large{
+  width: 200px;
+  height: 200px;
+  background: none;
+  font-size: 60px;
+  border: 3px solid white;
+}
+
+.element {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+} 
+
+.devices, .description {
+  font-family: 'Share Tech', serif;;
+}
+
+.description {
+  color: gray;
+}
+
+.icon-medium {
+  font-size: 70px;  
+}
+
+.dev-table {
+  width: 100%;  
+}
+
+.background, .background .pane{
+}
+
+h1 { font-family: 'Syncopate', sans-serif; }
+.dashboard-item { font-family: 'Share Tech', serif; }
+.dashboard-title { font-family: 'Syncopate', sans-serif; }
+
+.header-bottom-bar {
+  top: 0;
+  border-top-width: 0;
+  box-shadow: 0px 3px 0px gold;}
+}

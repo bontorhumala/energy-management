@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Tritronik EMS</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- elessar -->
+    <link rel="stylesheet" href="bower_components/elessar/elessar.css">
+    <!-- end elessar -->
+
+    <!-- Timeline CSS -->
+    <link href="css/plugins/timeline.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link href="styles/main.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- leaflet -->
+    <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css" />
+    <!-- end leaflet -->
+
+    <!-- leaflet -->
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <!-- end leaflet -->
+
+    <!-- leaflet.awesome-markers -->
+    <link rel="stylesheet" href="leaflet.awesome-markers/leaflet.awesome-markers.css" />
+    <!-- end leaflet.awesome-markers -->
+
+    <!-- calendar -->
+    <link rel="stylesheet" href="bower_components/fullcalendar/fullcalendar.css">
+    <!-- end calendar -->
+
+    <!-- ngTable -->
+    <!-- <script type="text/javascript" src="bower_components/ng-table/ng-table.css"></script> -->
+    <link rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.css" />
+    <!-- end ngTable -->
+
+    <!-- NVD3 -->
+    <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
+    <!-- end NVD3 -->
+
+    <!-- Rickshaw -->
+    <link rel=stylesheet href="bower_components/rickshaw/rickshaw.css"/>       
+    <!-- end Rickshaw -->
+    <link rel=stylesheet href="css/toggle-style.css"/>
+  </head>
+
+    <body ng-app="rpm-web">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="bower_components/es5-shim/es5-shim.js"></script>
+      <script src="bower_components/json3/lib/json3.min.js"></script>
+      <![endif]-->
+
+      <!-- Add your site or application content here -->
+      <!-- Navigation -->
+      <div ng-controller="IndexCtrl">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Tritronik EMS</a>
+          </div>
+          <!-- /.navbar-header -->
+
+          <ul class="nav navbar-top-links navbar-right">
+            <!-- /.dropdown -->
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-alerts">
+                <li ng-repeat="alert in alertList">
+                  <a href="#">
+                    <div ng-class="{warn:'bg-warning', fault:'bg-danger'}[alert.type]">
+                      <p><i class="fa fa-fw" ng-class="{warn:'fa-exclamation-circle', fault:'fa-times-circle'}[alert.type]"></i>{{alert.desc}}</p>
+                      <p class="pull-right text-muted small">{{alert.due}}</p>
+                    </div>
+                  </a>
+                </li><br>
+                <li class="divider"></li>
+                <li>
+                  <a class="text-center" ui-sref="alr">
+                    <strong>Lihat notifikasi</strong>
+                    <i class="fa fa-angle-right"></i>
+                  </a>
+                </li>
+              </ul>
+              <!-- /.dropdown-alerts -->
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-user">
+                <li><a href="#"><i class="fa fa-user fa-fw"></i> Profil pengguna</a>
+                </li>
+                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Pengaturan</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                </li>
+              </ul>
+              <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+          </ul>
+          <!-- /.navbar-top-links -->
+
+          <div class="sidebar navbar-default" role="navigation">
+            <div class="sidebar-nav collapse navbar-collapse">
+              <ul class="nav" id="side-menu">               
+                <li>
+                  <a ui-sref="main"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+                <li>
+                  <a ui-sref="supply"><i class="fa fa-power-off fa-fw"></i> Kendali Suplai Listrik</a>
+                </li>
+                <li>
+                  <a ui-sref="consumption"><i class="fa fa-bolt fa-fw"></i> Penggunaan Energi Listrik</a>
+                </li>
+                <li>
+                  <a ui-sref="scheduling"><i class="fa fa-clock-o fa-fw"></i> Penjadwalan</a>
+                </li>                 
+                <li>
+                  <a ui-sref="alr"><i class="fa fa-info-circle fa-fw"></i> Notifikasi</a>
+                </li>
+<!--
+                <li class="nav-header" data-toggle="collapse" data-target="#environav">                
+                  <a><i class="fa fa-leaf fa-fw"></i> Environmental Condition<span class="fa arrow"></span></a>
+                  <ul class="nav nav-stacked collapse" id="environav">
+                    <li><a ui-sref="enviromap">EnviroMap</a></li>
+                    <li><a ui-sref="envirograph">EnviroGraph</a></li>
+                  </ul>
+                </li>                
+-->
+              </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+          </div>
+          <!-- /.navbar-static-side -->
+        </nav>
+      </div> <!--ng-controller -->
+      <div ui-view></div>
+
+      <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+      <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+     </script>
+<!--     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>    -->
+     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+     <script src="bower_components/moment/moment.js"></script>      
+<!--     <script src="bower_components/jquery/jquery.js"></script>-->
+     <script src="bower_components/angular/angular.js"></script>
+     <script src="bower_components/d3/d3.js"></script>
+     <script src="bower_components/nvd3/nv.d3.js"></script>
+     <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+     <script src="bower_components/jquery-bridget/jquery.bridget.js"></script>
+     <script src="bower_components/get-style-property/get-style-property.js"></script>
+     <script src="bower_components/get-size/get-size.js"></script>
+     <script src="bower_components/eventEmitter/EventEmitter.js"></script>
+     <script src="bower_components/eventie/eventie.js"></script>
+     <script src="bower_components/doc-ready/doc-ready.js"></script>
+     <script src="bower_components/matches-selector/matches-selector.js"></script>
+     <script src="bower_components/outlayer/item.js"></script>
+     <script src="bower_components/outlayer/outlayer.js"></script>
+     <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+     <script src="bower_components/masonry/masonry.js"></script>
+     <script src="bower_components/angular-masonry/angular-masonry.js"></script>
+     <script src="bower_components/angular-toggle-switch/angular-toggle-switch.min.js"></script>     
+     <script src="bower_components/elessar/dist/elessar.js"></script>
+
+     <!-- build:js scripts/plugins.js -->
+     <script src="bower_components/sass-bootstrap/js/affix.js"></script>
+     <script src="bower_components/sass-bootstrap/js/alert.js"></script>
+     <script src="bower_components/sass-bootstrap/js/button.js"></script>
+     <script src="bower_components/sass-bootstrap/js/carousel.js"></script>
+     <script src="bower_components/sass-bootstrap/js/transition.js"></script>
+     <script src="bower_components/sass-bootstrap/js/collapse.js"></script>
+     <script src="bower_components/sass-bootstrap/js/dropdown.js"></script>
+     <script src="bower_components/sass-bootstrap/js/modal.js"></script>
+     <script src="bower_components/sass-bootstrap/js/scrollspy.js"></script>
+     <script src="bower_components/sass-bootstrap/js/tab.js"></script>
+     <script src="bower_components/sass-bootstrap/js/tooltip.js"></script>
+     <script src="bower_components/sass-bootstrap/js/popover.js"></script>
+     <!-- endbuild -->
+
+     <!-- build:js scripts/modules.js -->
+     <script src="bower_components/angular-resource/angular-resource.js"></script>
+     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+     <script src="bower_components/angular-route/angular-route.js"></script>
+     <!-- endbuild -->
+     
+     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+     <script src="scripts/app.js"></script>
+     <script src="scripts/controllers/index.js"></script>
+     <script src="scripts/controllers/main.js"></script>     
+     <script src="scripts/controllers/consumption.js"></script>
+     <script src="scripts/controllers/scheduling.js"></script>
+     <script src="scripts/controllers/alerts.js"></script>
+     <script src="scripts/controllers/supply.js"></script>
+     <!-- endbuild -->
+          
+     <!-- angular-bootstrap -->
+     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+     <!-- end angular-bootstrap -->
+
+     <!-- Bootstrap Core JavaScript -->
+     <script src="js/bootstrap.min.js"></script>
+
+     <!-- leaflet -->
+     <script src="bower_components/leaflet/dist/leaflet.js"></script>
+     <script src="bower_components/angular-leaflet/dist/angular-leaflet-directive.min.js"></script>
+     <!-- end leaflet -->
+
+     <!-- leaflet.awesome-markers -->
+     <script src="leaflet.awesome-markers/leaflet.awesome-markers.js"></script>
+     <!-- end leaflet.awesome-markers -->
+
+     <!-- underscore -->
+     <script src="scripts/underscore-min.js"></script>               
+     <!-- end underscore -->
+          
+     <!-- Rickshaw -->
+     <script src="bower_components/rickshaw/rickshaw.js"></script>     
+     <script src="bower_components/rickshaw/vendor/d3.v3.js"></script>
+     <script src="bower_components/rickshaw/vendor/d3.layout.min.js"></script>                
+     <!-- end Rickshaw -->
+
+     <!-- calendar -->
+     <script type="text/javascript" src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+     <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
+     <script type="text/javascript" src="bower_components/fullcalendar/fullcalendar.js"></script>
+     <script type="text/javascript" src="bower_components/fullcalendar/gcal.js"></script>     
+     <!-- end calendar -->
+
+     <!-- ngTable -->
+     <script type="text/javascript" src="bower_components/ng-table/ng-table.js"></script>        
+     <!-- end ngTable -->
+    
+     <!-- Jqueryknob -->
+     <script type="text/javascript" src="js/plugins/jqueryKnob/jquery.knob.js"></script>
+
+   </body>
+
+   </html>

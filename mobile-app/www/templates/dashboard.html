@@ -1,0 +1,56 @@
+<ion-view title="Dashboard" ng-init="getCurrentVal()">
+  <ion-header-bar align-title="center" class="header-bottom-bar">
+    <h1 class="title">LISTRIK</h1>
+      <button class="button icon ion-person" ng-click="login()"></button>
+  </ion-header-bar>
+  <ion-content style="background-color:beige" class="has-header">
+    <div class="row" style="width: 100%">
+      <div class="col">
+        <div class="power-medium">{{power}}</div>
+        <div class="power-medium">kWh</div><br>
+        <div class="description">consumed</div>
+      </div>
+      <div class="col" style="text-align:left">
+        <div class="col" style="text-align:center">
+          <div class="row" style="width: 100%">
+            <div class="col" style="text-align:center">
+              <div class="circleBase medium"><div class="element">{{numberOff}}</div></div> <!-- devices on -->
+              <div class="description" style="text-align:center">off</div>
+            </div>
+            <div class="col" style="text-align:center">          
+              <div class="circleBase medium shadow"><div class="element">{{numberOn}}</div></div> <!-- devices off -->
+              <div class="description" style="text-align:center">on</div>
+            </div>
+          </div>
+        </div>
+        <div class="col" style="text-align:center; margin-top:-8px">
+          <label class="toggle toggle-balanced">
+             <input type="checkbox" ng-model="allStatus" ng-change="sendAllCommand(allStatus)">
+             <div class="track">
+               <div class="handle"></div>
+             </div>
+          </label><br>
+          <div class="description" style="text-align:center">all devices</div>
+        </div>
+      </div>    
+    </div>
+    <div class="row" style="width: 100%">
+      <d3-streamgraph></d3-streamgraph>
+    </div>    
+    <div class="list" style="background-color:white">
+      <div class="item item-divider dashboard-item" style="background-color: gold; color:white; border-color:goldenrod"> 
+        List of Devices
+      </div>
+      <div class="item item-icon-left devices" ng-repeat="device in appliances" style="background-color: rgba(0,0,0,0.0); color: grey; border-color:rgba(0,0,0,0.0)">
+        <i class="button button-icon icon ion-clock" style="color: slategray" ng-click="schedule()"></i>
+        <span class="padding">{{ device.name }}</span>
+        <label class="toggle toggle-energized" style="position: absolute; right: 20px; top:10px">
+          <input type="checkbox" ng-model="device.status" ng-change="sendCommand($index)">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>        
+    </div>
+  </ion-content>
+</ion-view>

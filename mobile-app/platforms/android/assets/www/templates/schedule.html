@@ -1,0 +1,43 @@
+<div class="modal">
+  <ion-header-bar>
+    <h1 class="title">Scheduling</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeSchedule()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="dashboard-item">
+    <div class="list">
+      <div class="item item-divider"> 
+        Set Time
+      </div>
+      <div style="schedule-center">
+        <datetimepicker data-ng-model="data.date" data-datetimepicker-config="{ startView: 'hour' }"></datetimepicker>
+      </div>
+      <div class="item item-divider"> 
+        Set Days
+      </div>
+      <ion-checkbox ng-model="isMon">Mon</ion-checkbox>
+      <ion-checkbox ng-model="isTue">Tue</ion-checkbox>
+      <ion-checkbox ng-model="isWed">Wed</ion-checkbox>
+      <ion-checkbox ng-model="isThu">Thu</ion-checkbox>
+      <ion-checkbox ng-model="isFri">Fri</ion-checkbox>
+      <ion-checkbox ng-model="isSat">Sat</ion-checkbox>
+      <ion-checkbox ng-model="isSun">Sun</ion-checkbox>
+      <div class="item item-divider"> 
+        Set Control
+      </div>
+      <label class="toggle" style="margin-top:20px;">
+       <input type="checkbox" ng-model="scheduleStatus">
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+    </div>    
+    <div class="row">
+      <button class="button button-block button-positive">
+        Set Schedule
+      </button>      
+    </div>
+  </ion-content>
+</div>
+
