@@ -1,0 +1,51 @@
+<ion-view title="Dashboard" ng-init="getCurrentVal()">
+  <ion-header-bar align-title="center" class="bar-positive">
+    <h1 class="title">Apartment Automation</h1>
+      <button class="button" ng-click="login()">Login</button>
+  </ion-header-bar>
+  <ion-content class="has-header">
+    <div class="row" style="width: 100%">
+      <div class="col" style="text-align:center">
+        <div class="circleBase medium"><div class="element">{{numberOn}}</div></div> <!-- devices on -->
+      </div>
+      <div class="col" style="text-align:center">
+        <div class="circleBase medium shadow"><div class="element">{{numberOff}}</div></div> <!-- devices off -->
+      </div>
+      <div class="col" style="text-align:center">
+        <div class="power-medium">{{power}} kWh</div> <!-- active schedule -->
+      </div>
+      <div class="col" style="text-align:center">
+        <label class="toggle toggle-balanced">
+           <input type="checkbox" ng-model="allStatus" ng-change="sendAllCommand(allStatus)">
+           <div class="track">
+             <div class="handle"></div>
+           </div>
+        </label><br>
+      </div>    
+    </div>
+    <div class="row" style="width: 100%">
+      <div class="col" style="text-align:center">devices on</div>
+      <div class="col" style="text-align:center">devices off</div>
+      <div class="col" style="text-align:center">consumed</div>
+      <div class="col" style="text-align:center">all devices</div>
+    </div>
+    <div class="row" style="width: 100%">
+      <d3-streamgraph></d3-streamgraph>
+    </div>    
+    <div class="list">
+      <div class="item item-divider" style="background-color: rgba(0,0,0,0.4); color:white; border-color:rgba(0,0,0,0.2)"> 
+        List of Devices
+      </div>
+      <div class="item item-icon-left devices" ng-repeat="device in appliances" style="background-color: rgba(0,0,0,0.0); color: grey; border-color:rgba(0,0,0,0.0)">
+        <i class="button button-icon icon ion-clock" style="color: slategray" ng-click="schedule()"></i>
+        <span class="padding">{{ device.name }}</span>
+        <label class="toggle toggle-balanced" style="position: absolute; right: 20px; top:10px">
+          <input type="checkbox" ng-model="device.status" ng-change="sendCommand($index)">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>        
+    </div>
+  </ion-content>
+</ion-view>
