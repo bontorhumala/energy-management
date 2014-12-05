@@ -1,6 +1,6 @@
-var ComeApp = angular.module('starter.controllers', [])
+var app = angular.module('starter.controllers', [])
 
-  ComeApp.config(['$httpProvider', function($httpProvider) {
+  app.config(['$httpProvider', function($httpProvider) {
       // $httpProvider.defaults.useXDomain = true;
       // $httpProvider.defaults.withCredentials = true;
       // delete $httpProvider.defaults.headers.common["X-Requested-With"];
@@ -9,10 +9,16 @@ var ComeApp = angular.module('starter.controllers', [])
     }
   ]);
 
-  ComeApp.controller('AppCtrl', function($scope, $ionicModal, $timeout, $templateCache, $filter, $http) {
+  app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $templateCache, $filter, $http) {
     // Form data for the login modal
     $scope.loginData = {};
 
+    $scope.time = {
+      hour: 1,
+      minute: 30,
+      period: "am"
+    };
+    
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
       scope: $scope
@@ -217,3 +223,4 @@ var ComeApp = angular.module('starter.controllers', [])
     }
 
   })
+
