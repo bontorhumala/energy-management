@@ -1,15 +1,13 @@
 <ion-view title="Control">
-  <ion-header-bar align-title="center" class="header-bottom-bar">
-    <button class="button icon ion-person" ng-click="login()"></button>
-  </ion-header-bar>
-  <ion-content style="background-color:beige" class="has-header">    
+  <ion-content style="background-color:beige">    
     <div class="list">
-      <div class="item item-divider dashboard-item" style="background-color: gold; color:white; border-color:goldenrod"> 
+      <div class="item item-divider dashboard-item" style="background-color: beige; color:slategray"> 
         List of Devices
-      </div>
-      <div class="item item-icon-left devices" ng-repeat="device in appliances" style="background-color: rgba(0,0,0,0.0); color: grey; border-color:rgba(0,0,0,0.0)">
-        <i class="button button-icon icon ion-clock" style="color: slategray" ng-click="schedule()"></i>
-        <span class="padding">{{ device.name }}</span>
+      </div>  
+      <div class="item devices devices-list" collection-repeat="device in appliances" collection-item-width="'100%'"
+    collection-item-height="'13%'" style="background-color: rgba(0,0,0,0.0); color: grey; border-color:rgba(0,0,0,0.0);width: 100%">
+        <h2 style="color:slategray">{{ device.name }}</h2>
+        <p>{{ device.description }}</p>                
         <label class="toggle toggle-energized" style="position: absolute; right: 20px; top:10px">
           <input type="checkbox" ng-model="device.status" ng-change="sendCommand($index)">
           <div class="track">

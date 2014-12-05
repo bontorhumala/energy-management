@@ -3,24 +3,28 @@
   Each tab's child <ion-nav-view> directive will have its own 
   navigation history that also transitions its views in and out.
 -->
-<ion-tabs class="tabs-icon-top tabs-energized">
+<ion-tabs class="tabs-icon-only">
 
 
   <!-- Dashboard Tab -->
-  <ion-tab title="Dashboard" icon="icon ion-home" href="#/app/dashboard">
+  <ion-tab title="Dashboard" icon="icon energized ion-home" href="#/app/dashboard">
     <ion-nav-view name="dashboard"></ion-nav-view>
   </ion-tab>
 
 
-  <!-- Friends Tab -->
-  <ion-tab title="Control" icon="icon ion-heart" href="#/app/control">
+  <!-- Control Tab -->
+  <ion-tab title="Control" icon="icon energized ion-android-hand" href="#/app/control">
     <ion-nav-view name="control"></ion-nav-view>
   </ion-tab>
 
+  <!-- Log Tab -->
+  <ion-tab title="Log" icon="icon energized ion-stats-bars" href="#/app/log">
+    <ion-nav-view name="log"></ion-nav-view>
+  </ion-tab>
 
-  <!-- Account Tab -->
-  <ion-tab title="Account" icon="icon ion-gear-b" href="#/tab/account">
-    <ion-nav-view name="tab-account"></ion-nav-view>
+  <!-- Settings Tab -->
+  <ion-tab title="Setting" icon="icon energized ion-android-settings" href="#/app/settings">
+    <ion-nav-view name="settings"></ion-nav-view>
   </ion-tab>
 
 

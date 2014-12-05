@@ -9,16 +9,10 @@ var app = angular.module('starter.controllers', [])
     }
   ]);
 
-  app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $templateCache, $filter, $http) {
+  app.controller('DashboardCtrl', function($scope, $ionicModal, $timeout, $templateCache, $http) {
     // Form data for the login modal
     $scope.loginData = {};
 
-    $scope.time = {
-      hour: 1,
-      minute: 30,
-      period: "am"
-    };
-    
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
       scope: $scope
@@ -47,45 +41,7 @@ var app = angular.module('starter.controllers', [])
       }, 1000);
     };
 
-    // Create the login modal that we will use later
-    $ionicModal.fromTemplateUrl('templates/schedule.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.scheduleModal = modal;
-    });
-
-    // Triggered in the login modal to close it
-    $scope.closeSchedule = function() {
-      $scope.scheduleModal.hide();
-    };
-
-    // Open the login modal
-    $scope.schedule = function() {
-      $scope.scheduleModal.show();
-    };
-
-    // Perform the login action when the user submits the login form
-    $scope.doSchedule = function() {
-      console.log('Doing scheduling', $scope.scheduleData);
-
-      // Simulate a login delay. Remove this and replace with your login
-      // code if using a login system
-      $timeout(function() {
-        $scope.closeSchedule();
-      }, 1000);
-    };
-
     $scope.appliances = [
-      { name: 'Air Conditioner 1', id: 1, status: false },
-      { name: 'Air Conditioner 2', id: 2, status: false },
-      { name: 'Lamp 1', id: 3, status: false },
-      { name: 'Lamp 2', id: 4, status: false },
-      { name: 'Lamp 3', id: 5, status: false },
-      { name: 'Lamp 4', id: 6, status: false },    
-      { name: 'Water heater', id: 7, status: false },
-      { name: 'Plug 1', id: 8, status: false },
-      { name: 'Plug 2', id: 9, status: false },
-      { name: 'Plug 3', id: 10, status: false }    
     ];
 
     $scope.numberOn = 0;
@@ -149,35 +105,6 @@ var app = angular.module('starter.controllers', [])
     // Kick off the interval
     $scope.intervalFunction();
 
-    $scope.sendCommand = function(appIndex) {
-      // console.log("appIndex: " + appIndex);
-      // console.log("status:" + $scope.appliances[appIndex].status);
-      var requestParam = "http://www.corsproxy.com/afternoon-cove-4361.herokuapp.com/mcmd?"
-      var requestVal = "";
-      var command;
-      $scope.numberOn = 0;
-      $scope.numberOff = 0;  
-      $scope.appliances.forEach(function(entry, index) {
-        // console.log(entry);
-        if (entry.status == true) { command = 1; $scope.numberOn++; }
-        else { command = 0; $scope.numberOff++; }
-        requestVal += "c" + (index+1) + "=" + command +"&";      
-      });
-      // console.log(requestParam+requestVal);
-      $http({
-        method: 'GET',
-        url: requestParam+requestVal,
-        data: '' }).
-      success(function(data, status) {
-        // console.log("send command success");
-        return data;
-      }).
-      error(function(data, status) {
-        // console.log("send command failed");      
-        return data;
-      });    
-    }
-
     $scope.sendAllCommand = function(status) {
       // console.log("allStatus:" + status);
       var requestParam = "http://www.corsproxy.com/afternoon-cove-4361.herokuapp.com/mcmd?"
@@ -218,9 +145,104 @@ var app = angular.module('starter.controllers', [])
       });      
     }
 
-    $scope.editSchedule = function() {
-      console.log('login');
+  })
+
+  app.controller('ControlCtrl', function($scope, $timeout, $http) {
+    // Form data for the login modal
+    $scope.appliances = [
+      { name: 'Air Conditioner 1', description: 'Living room', id: 1, status: false },
+      { name: 'Air Conditioner 2', description: 'Bedroom', id: 2, status: false },
+      { name: 'Lamp 1', description: 'Terrace',  id: 3, status: false },
+      { name: 'Lamp 2', description: 'Living room',  id: 4, status: false },
+      { name: 'Lamp 3',  description: '2nd floor', id: 5, status: false },
+      { name: 'Lamp 4',  description: 'Kitchen', id: 6, status: false },    
+      { name: 'Water heater',  description: 'Bathroom', id: 7, status: false },
+      { name: 'Plug 1', description: 'Living room', id: 8, status: false },
+      { name: 'Plug 2', description: 'Bedroom', id: 9, status: false },
+      { name: 'Plug 3', description: 'Kitchen', id: 10, status: false }    
+    ];
+
+    $scope.getItemHeight = function(item, index) {
+      //Make evenly indexed items be 10px taller, for the sake of example
+      return (index % 2) === 0 ? 50 : 50;
+    };
+
+    $scope.getCurrentVal = function() {
+      $http({
+        method: 'GET',
+        url: "http://www.corsproxy.com/afternoon-cove-4361.herokuapp.com/acmd?",
+        data: '' }).
+      success(function(data, status) {
+        // console.log("get current command val:");
+        // console.log("data:" + data);
+        $scope.numberOn = 0;
+        $scope.numberOff = 0;
+        $scope.appliances.forEach(function(entry, index) {
+          if (data[index*2] == true) { entry.status = true; $scope.numberOn++; }
+          else { entry.status = false; $scope.numberOff++; }
+        });
+        return data;
+      }).
+      error(function(data, status) {
+        // console.log("data:" + data);
+        return data;
+      });      
+    }
+
+    $scope.intervalFunction = function(){
+      $timeout(function() {
+        $scope.getCurrentVal();
+        $scope.intervalFunction();
+      }, 10000)
+    };
+
+    // Kick off the interval
+    $scope.intervalFunction();
+
+    $scope.sendCommand = function(appIndex) {
+      // console.log("appIndex: " + appIndex);
+      // console.log("status:" + $scope.appliances[appIndex].status);
+      var requestParam = "http://www.corsproxy.com/afternoon-cove-4361.herokuapp.com/mcmd?"
+      var requestVal = "";
+      var command;
+      $scope.numberOn = 0;
+      $scope.numberOff = 0;  
+      $scope.appliances.forEach(function(entry, index) {
+        // console.log(entry);
+        if (entry.status == true) { command = 1; $scope.numberOn++; }
+        else { command = 0; $scope.numberOff++; }
+        requestVal += "c" + (index+1) + "=" + command +"&";      
+      });
+      // console.log(requestParam+requestVal);
+      $http({
+        method: 'GET',
+        url: requestParam+requestVal,
+        data: '' }).
+      success(function(data, status) {
+        // console.log("send command success");
+        return data;
+      }).
+      error(function(data, status) {
+        // console.log("send command failed");      
+        return data;
+      });    
     }
 
   })
 
+  app.controller('SettingCtrl', function($scope) {
+    // Form data for the login modal
+    $scope.appliances = [
+      { name: 'Air Conditioner 1', id: 1, status: false },
+      { name: 'Air Conditioner 2', id: 2, status: false },
+      { name: 'Lamp 1', id: 3, status: false },
+      { name: 'Lamp 2', id: 4, status: false },
+      { name: 'Lamp 3', id: 5, status: false },
+      { name: 'Lamp 4', id: 6, status: false },    
+      { name: 'Water heater', id: 7, status: false },
+      { name: 'Plug 1', id: 8, status: false },
+      { name: 'Plug 2', id: 9, status: false },
+      { name: 'Plug 3', id: 10, status: false }    
+    ];
+
+  })

@@ -48,6 +48,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         }
       }
     })
+    .state('app.log', {
+      url: '/log',
+      views: {
+        'log': {
+          templateUrl: 'templates/log.html',
+          controller: 'LogCtrl'
+        }
+      }
+    })
+    .state('app.settings', {
+      url: '/settings',
+      views: {
+        'settings': {
+          templateUrl: 'templates/settings.html',
+          controller: 'SettingsCtrl'
+        }
+      }
+    })
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/dashboard');

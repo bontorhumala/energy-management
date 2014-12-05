@@ -1,8 +1,5 @@
 <ion-view title="Dashboard" ng-init="getCurrentVal()">
-  <ion-header-bar align-title="center" class="header-bottom-bar">
-    <button class="button icon ion-person" ng-click="login()"></button>
-  </ion-header-bar>
-  <ion-content style="background-color:beige" class="has-header">
+  <ion-content style="background-color:beige">
     <div class="row" style="width: 100%">
       <div class="col">
         <div class="power-medium">{{power}}</div>
@@ -22,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="col" style="text-align:center; margin-top:-8px">
+        <div class="col" style="text-align:center; margin-bottom:0px">
           <label class="toggle toggle-balanced">
              <input type="checkbox" ng-model="allStatus" ng-change="sendAllCommand(allStatus)">
              <div class="track">

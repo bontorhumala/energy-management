@@ -1,8 +1,7 @@
-@import url(http://fonts.googleapis.com/css?family=Share+Tech|Syncopate);
-
+@import url(http://fonts.googleapis.com/css?family=Share+Tech|Syncopate|Roboto:400,700,900,700italic,500);
 /* Empty. Add your own CSS if you like */
 svg {
-  font-family: 'Share Tech', serif;
+  font-family: 'Roboto', sans-serif;
   color: gray;
 }
 
@@ -12,11 +11,6 @@ svg {
 
 .y.axis line {
   stroke: #fff;
-}
-
-.area {
-    fill: lightsteelblue;
-    stroke-width: 0;
 }
 
 .line {
@@ -52,9 +46,9 @@ svg {
 }
 
 .medium {
-  width: 70px;
-  height: 70px;
-  font-size: 40px;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
   background-color: slategray;
   border: 3px solid slategray;
 }
@@ -63,7 +57,7 @@ svg {
   color: slategray;
   margin: auto;  
   margin-top: 50px;    
-  font-family: 'Share Tech', serif;  
+  font-family: 'Roboto', sans-serif;
   background: none;
   font-size: 80px;
 }
@@ -89,7 +83,7 @@ svg {
 } 
 
 .devices, .description {
-  font-family: 'Share Tech', serif;;
+  font-family: 'Roboto', sans-serif;
 }
 
 .description {
@@ -108,11 +102,16 @@ svg {
 }
 
 h1 { font-family: 'Syncopate', sans-serif; }
-.dashboard-item { font-family: 'Share Tech', serif; }
+.dashboard-item { font-family: 'Roboto', sans-serif; }
 .dashboard-title { font-family: 'Syncopate', sans-serif; }
 
 .header-bottom-bar {
   top: 0;
   border-top-width: 0;
   box-shadow: 0px 3px 0px gold;}
+}
+
+.devices-list {
+  left: 0;
+  right: 0;
 }

@@ -23,49 +23,51 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
+// setup an abstract state for the tabs directive
     .state('app', {
       url: "/app",
       abstract: true,
-      templateUrl: "templates/menu.html",
-      controller: 'AppCtrl'
+      templateUrl: "templates/menu.html"
     })
 
     .state('app.dashboard', {
-      url: "/dashboard",
+      url: '/dashboard',
       views: {
-        'menuContent' :{
-          templateUrl: "templates/dashboard.html"
-        }
-      }
-    })
-
-    .state('app.energy', {
-      url: "/energy",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/energy.html"
+        'dashboard': {
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
         }
       }
     })
     .state('app.control', {
-      url: "/control",
+      url: '/control',
       views: {
-        'menuContent' :{
-          templateUrl: "templates/control.html",
+        'control': {
+          templateUrl: 'templates/control.html',
           controller: 'ControlCtrl'
         }
       }
     })
-
-    .state('app.schedule', {
-      url: "/control/:controlId",
+    .state('app.log', {
+      url: '/log',
       views: {
-        'menuContent' :{
-          templateUrl: "templates/schedule.html",
-          controller: 'ScheduleCtrl'
+        'log': {
+          templateUrl: 'templates/log.html',
+          controller: 'LogCtrl'
         }
       }
-    });
+    })
+    .state('app.settings', {
+      url: '/settings',
+      views: {
+        'settings': {
+          templateUrl: 'templates/settings.html',
+          controller: 'SettingsCtrl'
+        }
+      }
+    })
+
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/dashboard');
 });

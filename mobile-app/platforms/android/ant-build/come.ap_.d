@@ -621,9 +621,9 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/control.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/login.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/dashboard.html \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/settings.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/menu.html \
-/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/schedule.html \
-/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/energy.html \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/log.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/style.css \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/fonts \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/fonts/Roboto \
