@@ -1,12 +1,22 @@
-<ion-view title="Appliances">
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
-  <ion-content class="has-header">
-    <ion-list>
-      <ion-item ng-repeat="appliance in appliances" href="#/app/control/{{appliance.id}}">
-        {{appliance.title}}
-      </ion-item>
-    </ion-list>
+<ion-view title="Control">
+  <ion-header-bar align-title="center" class="header-bottom-bar">
+    <button class="button icon ion-person" ng-click="login()"></button>
+  </ion-header-bar>
+  <ion-content style="background-color:beige" class="has-header">    
+    <div class="list">
+      <div class="item item-divider dashboard-item" style="background-color: gold; color:white; border-color:goldenrod"> 
+        List of Devices
+      </div>
+      <div class="item item-icon-left devices" ng-repeat="device in appliances" style="background-color: rgba(0,0,0,0.0); color: grey; border-color:rgba(0,0,0,0.0)">
+        <i class="button button-icon icon ion-clock" style="color: slategray" ng-click="schedule()"></i>
+        <span class="padding">{{ device.name }}</span>
+        <label class="toggle toggle-energized" style="position: absolute; right: 20px; top:10px">
+          <input type="checkbox" ng-model="device.status" ng-change="sendCommand($index)">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>        
+    </div>
   </ion-content>
 </ion-view>

@@ -1,10 +1,27 @@
-<ion-side-menus>
+<!-- 
+  Create tabs with an icon and label, using the tabs-positive style. 
+  Each tab's child <ion-nav-view> directive will have its own 
+  navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top tabs-energized">
 
-  <ion-pane ion-side-menu-content>
-<!--     <ion-nav-bar class="bar-stable nav-title-slide-ios7">
-      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
-    </ion-nav-bar> -->
-    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
-  </ion-pane>
 
-</ion-side-menus>
+  <!-- Dashboard Tab -->
+  <ion-tab title="Dashboard" icon="icon ion-home" href="#/app/dashboard">
+    <ion-nav-view name="dashboard"></ion-nav-view>
+  </ion-tab>
+
+
+  <!-- Friends Tab -->
+  <ion-tab title="Control" icon="icon ion-heart" href="#/app/control">
+    <ion-nav-view name="control"></ion-nav-view>
+  </ion-tab>
+
+
+  <!-- Account Tab -->
+  <ion-tab title="Account" icon="icon ion-gear-b" href="#/tab/account">
+    <ion-nav-view name="tab-account"></ion-nav-view>
+  </ion-tab>
+
+
+</ion-tabs>
