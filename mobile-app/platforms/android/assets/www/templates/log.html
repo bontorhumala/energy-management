@@ -1,21 +1,21 @@
 <ion-view title="Log">
-  <ion-content style="background-color:beige">    
+  <ion-content style="background-color:beige">
     <div class="list">
-      <div class="item item-divider dashboard-item" style="background-color: beige; color:slategray"> 
+      <div class="item item-divider dashboard-item" style="background-color: white; color:slategray"> 
         Power
-      </div>        
-      <div class="item item-divider dashboard-item" style="background-color: beige; color:slategray"> 
+      </div>
+      <angularchart dataset="datasetPower" schema="schemaPower" options="optionsPower">
+      </angularchart>      
+      <div class="item item-divider dashboard-item" style="background-color: white; color:slategray"> 
         Voltage
       </div>  
-      <div class="item item-divider dashboard-item" style="background-color: beige; color:slategray"> 
+      <angularchart dataset="datasetVoltage" schema="schemaVoltage" options="optionsVoltage">
+      </angularchart>
+      <div class="item item-divider dashboard-item" style="background-color: white; color:slategray"> 
         Current
-      </div>      
-      <div class="item item-divider dashboard-item" style="background-color: beige; color:slategray"> 
-        Temperature
-      </div>   
-      <div class="item item-divider dashboard-item" style="background-color: beige; color:slategray"> 
-        Humidity
-      </div>         
+      </div> 
+      <angularchart dataset="datasetCurrent" schema="schemaCurrent" options="optionsCurrent">
+      </angularchart>
     </div>
   </ion-content>
 </ion-view>

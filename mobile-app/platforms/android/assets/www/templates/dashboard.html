@@ -1,7 +1,7 @@
 <ion-view title="Dashboard" ng-init="getCurrentVal()">
   <ion-content style="background-color:beige">
     <div class="row" style="width: 100%">
-      <div class="col">
+      <div class="col" style="padding-top:0px">
         <div class="power-medium">{{power}}</div>
         <div class="power-medium">kWh</div><br>
         <div class="description">consumed</div>
@@ -31,7 +31,8 @@
       </div>    
     </div>
     <div class="row" style="width: 100%">
-      <d3-streamgraph></d3-streamgraph>
+      <angularchart dataset="dataset" schema="schema" options="options">
+      </angularchart>
     </div>
   </ion-content>
 </ion-view>
