@@ -1,6 +1,42 @@
 var app = angular.module('starter')
 
-  app.controller('LogCtrl', function($scope) {
+  app.controller('LogCtrl', function($scope, $firebase, device) {
+
+    $scope.devices = [];
+
+    var URL = "https://enerman.firebaseio.com/";
+    // Synchronizing the devices on our $scope
+    $scope.FireSites = $firebase(new Firebase(URL + '/devices')).$asArray();
+    $scope.FireSites.$loaded().then(function() {
+      $scope.FireSites.forEach(function(value, i) {
+        // console.log(value);
+        var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+        item.id = value.id;
+        item.name = value.name;
+        item.channelId = value.channel;
+        item.talkbackId = value.talkback;
+        item.talkbackKey = value.talkbackKey;
+        item.writeKey = value.writeKey;
+        item.readKey = value.readKey;
+        item.point = value.point;
+        item.desc = value.desc;
+        item.type = value.type;
+        $scope.devices.push( item );
+        $scope.getGraph();
+      });
+      // console.log($scope.devices);
+    });
+
+    $scope.getGraph = function () {
+      $scope.graphPromise = device.getFeedLog($scope.devices[0].channelId, $scope.devices[0].readKey, 7, 15);
+      $scope.graphPromise.then(function (data) {
+        var feedData = data.data.feeds;
+        $scope.powerData = device.getGraph(feedData, 'field1', "Power");
+        $scope.voltageData = device.getGraph(feedData, 'field2', "Voltage");
+        $scope.currentData = device.getGraph(feedData, 'field3', "Current");        
+        // console.log($scope.voltData);
+      });
+    }
 
     $scope.datasetVoltage = [
       {

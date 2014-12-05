@@ -1,6 +1,6 @@
 var app = angular.module('starter.controllers', [])
 
-  app.controller('DashboardCtrl', function($scope, $rootScope, $ionicModal, $timeout, $templateCache, $http, $firebase, $q) {
+  app.controller('DashboardCtrl', function($scope, $rootScope, $ionicModal, $timeout, $templateCache, $http, $firebase, $q, device) {
 
     $scope.devices = [];
 
@@ -9,20 +9,46 @@ var app = angular.module('starter.controllers', [])
     $scope.FireSites = $firebase(new Firebase(URL + '/devices')).$asArray();
     $scope.FireSites.$loaded().then(function() {
       $scope.FireSites.forEach(function(value, i) {
-        console.log(value);
-        var device = { 'id':'', 'name':'', 'channelId':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':''};
-        device.id = value.id;
-        device.name = value.name;
-        device.channelId = value.channel;
-        device.writeKey = value.writeKey;
-        device.readKey = value.readKey;
-        device.point = value.point;
-        device.desc = value.desc;
-        device.type = value.type;
-        $scope.devices.push( device )
+        // console.log(value);
+        var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+        item.id = value.id;
+        item.name = value.name;
+        item.channelId = value.channel;
+        item.talkbackId = value.talkback;
+        item.talkbackKey = value.talkbackKey;
+        item.writeKey = value.writeKey;
+        item.readKey = value.readKey;
+        item.point = value.point;
+        item.desc = value.desc;
+        item.type = value.type;
+        $scope.devices.push( item );
+        $scope.getGraph();
+        $scope.getOverview();
       });
-      console.log($scope.devices);
+      // console.log($scope.devices);
     });
+
+    $scope.widgetval = { 'power':'', 'voltage':'', 'current':''};
+    $scope.getOverview = function() {
+      $scope.overviewPromise = device.getFeedNow( $scope.devices );
+      // console.log($scope.overviewPromise);
+      $q.all( $scope.overviewPromise ).then( function(results) {
+        var data = [];
+        angular.forEach(results, function(result) {
+          data = data.concat(result.data);
+        });
+        $scope.widgetval = device.calculateOverview(data);
+      })
+    }
+
+    $scope.getGraph = function () {
+      $scope.graphPromise = device.getFeedLog($scope.devices[0].channelId, $scope.devices[0].readKey, 7, 15);
+      $scope.graphPromise.then(function (data) {
+        var feedData = data.data.feeds;
+        $scope.powerData = device.getGraph(feedData, 'field1', "Power");
+        // console.log($scope.voltData);
+      });
+    }
 
     // Form data for the login modal
     $scope.loginData = {};

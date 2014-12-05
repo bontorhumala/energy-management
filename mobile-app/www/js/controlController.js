@@ -1,19 +1,30 @@
 var app = angular.module('starter')
 
-  app.controller('ControlCtrl', function($scope, $timeout, $http) {
-    // Form data for the login modal
-    $scope.appliances = [
-      { name: 'Air Conditioner 1', description: 'Living room', id: 1, status: false },
-      { name: 'Air Conditioner 2', description: 'Bedroom', id: 2, status: false },
-      { name: 'Lamp 1', description: 'Terrace',  id: 3, status: false },
-      { name: 'Lamp 2', description: 'Living room',  id: 4, status: false },
-      { name: 'Lamp 3',  description: '2nd floor', id: 5, status: false },
-      { name: 'Lamp 4',  description: 'Kitchen', id: 6, status: false },    
-      { name: 'Water heater',  description: 'Bathroom', id: 7, status: false },
-      { name: 'Plug 1', description: 'Living room', id: 8, status: false },
-      { name: 'Plug 2', description: 'Bedroom', id: 9, status: false },
-      { name: 'Plug 3', description: 'Kitchen', id: 10, status: false }    
-    ];
+  app.controller('ControlCtrl', function($scope, $timeout, $http, $firebase, $q, device) {
+
+    $scope.devices = [];    
+
+    var URL = "https://enerman.firebaseio.com/";
+    // Synchronizing the devices on our $scope
+    $scope.FireSites = $firebase(new Firebase(URL + '/devices')).$asArray();
+    $scope.FireSites.$loaded().then(function() {
+      $scope.FireSites.forEach(function(value, i) {
+        // console.log(value);
+        var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+        item.id = value.id;
+        item.name = value.name;
+        item.channelId = value.channel;
+        item.talkbackId = value.talkback;
+        item.talkbackKey = value.talkbackKey;
+        item.writeKey = value.writeKey;
+        item.readKey = value.readKey;
+        item.point = value.point;
+        item.desc = value.desc;
+        item.type = value.type;
+        $scope.devices.push( item );
+      });
+      // console.log($scope.devices);
+    });
 
     $scope.getItemHeight = function(item, index) {
       //Make evenly indexed items be 10px taller, for the sake of example

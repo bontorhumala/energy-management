@@ -1,19 +1,41 @@
 var app = angular.module('starter')
 
-  app.controller('EnvironmentalCtrl', function($scope) {
-    // Form data for the login modal
-    $scope.appliances = [
-      { name: 'Air Conditioner 1', id: 1, status: false },
-      { name: 'Air Conditioner 2', id: 2, status: false },
-      { name: 'Lamp 1', id: 3, status: false },
-      { name: 'Lamp 2', id: 4, status: false },
-      { name: 'Lamp 3', id: 5, status: false },
-      { name: 'Lamp 4', id: 6, status: false },    
-      { name: 'Water heater', id: 7, status: false },
-      { name: 'Plug 1', id: 8, status: false },
-      { name: 'Plug 2', id: 9, status: false },
-      { name: 'Plug 3', id: 10, status: false }    
-    ];
+  app.controller('EnvironmentalCtrl', function($scope, $firebase, device) {
+
+    $scope.devices = [];
+   
+    var URL = "https://enerman.firebaseio.com/";
+    // Synchronizing the devices on our $scope
+    $scope.FireSites = $firebase(new Firebase(URL + '/devices')).$asArray();
+    $scope.FireSites.$loaded().then(function() {
+      $scope.FireSites.forEach(function(value, i) {
+        // console.log(value);
+        var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+        item.id = value.id;
+        item.name = value.name;
+        item.channelId = value.channel;
+        item.talkbackId = value.talkback;
+        item.talkbackKey = value.talkbackKey;
+        item.writeKey = value.writeKey;
+        item.readKey = value.readKey;
+        item.point = value.point;
+        item.desc = value.desc;
+        item.type = value.type;
+        $scope.devices.push( item );
+        $scope.getGraph();
+      });
+      // console.log($scope.devices);
+    });
+
+    $scope.getGraph = function () {
+      $scope.graphPromise = device.getFeedLog($scope.devices[0].channelId, $scope.devices[0].readKey, 7, 15);
+      $scope.graphPromise.then(function (data) {
+        var feedData = data.data.feeds;
+        $scope.temperatureData = device.getGraph(feedData, 'field5', "Temperature");
+        $scope.humidityData = device.getGraph(feedData, 'field6', "Humidity");
+        // console.log($scope.voltData);
+      });
+    }
 
     $scope.datasetHum = [
       {
