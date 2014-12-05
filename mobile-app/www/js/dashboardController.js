@@ -1,6 +1,29 @@
 var app = angular.module('starter.controllers', [])
 
-  app.controller('DashboardCtrl', function($scope, $ionicModal, $timeout, $templateCache, $http) {
+  app.controller('DashboardCtrl', function($scope, $rootScope, $ionicModal, $timeout, $templateCache, $http, $firebase, $q) {
+
+    $scope.devices = [];
+
+    var URL = "https://enerman.firebaseio.com/";
+    // Synchronizing the devices on our $scope
+    $scope.FireSites = $firebase(new Firebase(URL + '/devices')).$asArray();
+    $scope.FireSites.$loaded().then(function() {
+      $scope.FireSites.forEach(function(value, i) {
+        console.log(value);
+        var device = { 'id':'', 'name':'', 'channelId':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':''};
+        device.id = value.id;
+        device.name = value.name;
+        device.channelId = value.channel;
+        device.writeKey = value.writeKey;
+        device.readKey = value.readKey;
+        device.point = value.point;
+        device.desc = value.desc;
+        device.type = value.type;
+        $scope.devices.push( device )
+      });
+      console.log($scope.devices);
+    });
+
     // Form data for the login modal
     $scope.loginData = {};
 
