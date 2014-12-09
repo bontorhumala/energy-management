@@ -246,8 +246,8 @@ var app = angular.module('starter.controllers', [])
     $scope.updateState = function() {
       $scope.statePromises = device.updateState($scope.devices);
       $q.all( $scope.statePromises ).then( function(results) {
-        console.log("updatePromise solved");
-        console.log(results);
+        // console.log("updatePromise solved");
+        // console.log(results);
         var data = [];
         angular.forEach(results, function(result) {
           data = data.concat(result.data);
