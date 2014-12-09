@@ -131,7 +131,12 @@ var app = angular.module('starter')
         }
       }
       // console.log($scope.devices);
-      device.controlDevices( $scope.devices );
+      $scope.controlPromise = device.controlDevices( $scope.devices );
+      $q.all( $scope.controlPromise ).then( function(results) {
+        console.log("controlPromise solved");
+        $scope.updateState();
+      })
+
     }
 
   })

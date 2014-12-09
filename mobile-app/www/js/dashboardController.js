@@ -103,9 +103,6 @@ var app = angular.module('starter.controllers', [])
     $scope.appliances = [
     ];
 
-    $scope.numberOn = 0;
-    $scope.numberOff = 0;  
-
     $scope.power = 0;
     $scope.voltage = 0;    
     $scope.current = 0;
@@ -249,7 +246,8 @@ var app = angular.module('starter.controllers', [])
     $scope.updateState = function() {
       $scope.statePromises = device.updateState($scope.devices);
       $q.all( $scope.statePromises ).then( function(results) {
-        console.log("promise solved");
+        console.log("updatePromise solved");
+        console.log(results);
         var data = [];
         angular.forEach(results, function(result) {
           data = data.concat(result.data);
@@ -309,7 +307,11 @@ var app = angular.module('starter.controllers', [])
         }
       }
       // console.log($scope.devices);
-      device.controlDevices( $scope.devices );
+      $scope.controlPromise = device.controlDevices( $scope.devices );
+      $q.all( $scope.controlPromise ).then( function(results) {
+        console.log("controlPromise solved");
+        $scope.updateState();
+      })
     }
 
   })
