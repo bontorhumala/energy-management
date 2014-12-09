@@ -81,9 +81,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
   $urlRouterProvider.otherwise('/app/dashboard');
 })
 
-.factory('device', ['$http', function($http){
+.factory('device', ['$http', '$q', function($http, $q){
   var urlBase = 'http://api.thingspeak.com/channels/';
-  var talkbackBase = 'http://api.thingspeak.com/talkback/';  
+  var talkbackBase = 'http://api.thingspeak.com/talkbacks/';  
   var device = {};
 
   device.isdevice = '';
@@ -94,7 +94,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
     var httpPromises = [];
     for (var i=0; i<items.length; i++) {
       httpPromises.push($http.get(urlBase + items[i].channelId + '/feed/last.json?offset=7&key=' + items[i].readKey ));
-      console.log(urlBase + items[i].channelId + '/feed/last.json?offset=7&key=' + items[i].readKey);
+      // console.log(urlBase + items[i].channelId + '/feed/last.json?offset=7&key=' + items[i].readKey);
     }
     return httpPromises;
   };
@@ -114,12 +114,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
     return overviewValue;
   }
 
-  device.controlDevices = function( devices ) {
+  device.updateState = function( devices ) {
     var httpPromises = [];
     for (var i=0; i<devices.length; i++) {
-      httpPromises.push($http.post(talkbackBase + devices[i].talkbackId + '/commands?api_key=' + devices[i].talkbackKey, devices[i].command));
+      httpPromises.push($http.get(talkbackBase + devices[i].talkbackId + '/commands/last?api_key=' + devices[i].talkbackKey));
     }
     return httpPromises;
+  }
+
+  device.controlDevices = function( devices ) {
+    var httpPromises = [];
+    var httpExecPromises = [];
+    for (var i=0; i<devices.length; i++) {
+      httpPromises.push($http.post(talkbackBase + devices[i].talkbackId + '/commands?api_key=' + devices[i].talkbackKey + "&command_string=" + devices[i].command + "&position=1"));
+      $q.all( httpPromises ).then( function(results) {
+        for (var i=0; i<devices.length; i++) {
+          httpExecPromises.push($http.post(talkbackBase + devices[i].talkbackId + '/commands/execute?api_key=' + devices[i].talkbackKey));
+        }
+      });
+    }
+    return httpExecPromises;
   }
 
   function parseDate(inputDate) {

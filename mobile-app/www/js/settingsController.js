@@ -22,7 +22,6 @@ var app = angular.module('starter')
         item.desc = value.desc;
         item.type = value.type;
         $scope.devices.push( item );
-        $scope.getGraph();
       });
       // console.log($scope.devices);
     });
