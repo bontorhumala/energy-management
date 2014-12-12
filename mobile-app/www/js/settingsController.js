@@ -1,9 +1,13 @@
 var app = angular.module('starter')
 
-  app.controller('SettingsCtrl', function($scope, $firebase, $q, device) {
+  app.controller('SettingsCtrl', function($scope, $state, $firebase, $q, device) {
 
     $scope.channels = [];
     $scope.devices = [];   
+
+    $scope.setGeofence = function () {
+      $state.go('geofences');
+    }
 
     var URL = "https://enerman.firebaseio.com/";
     // Synchronizing the devices on our $scope

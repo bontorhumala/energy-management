@@ -15,7 +15,7 @@ svg {
 
 .line {
   fill: none;
-  stroke: goldenrod;
+  stroke: forestgreen;
   stroke-width: 1.5px;
 }
 
@@ -108,7 +108,7 @@ h1 { font-family: 'Syncopate', sans-serif; }
 .header-bottom-bar {
   top: 0;
   border-top-width: 0;
-  box-shadow: 0px 3px 0px gold;}
+  box-shadow: 0px 3px 0px forestgreen;}
 }
 
 .devices-list {

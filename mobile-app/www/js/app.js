@@ -4,21 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.directives', 'angularChart', 'firebase', 'ngCordova'])
-// ui.bootstrap.datetimepicker'
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
+angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.directives', 'angularChart', 'firebase', 'leaflet-directive', 'toaster'])
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -65,7 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
           controller: 'EnvironmentalCtrl'
         }
       }
-    })    
+    })
     .state('app.settings', {
       url: '/settings',
       views: {
@@ -75,101 +61,89 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         }
       }
     })
-
+    .state('geofences', {
+      url: "/geofences",      
+      templateUrl: "templates/geofences.html",
+      controller: "GeofencesCtrl"
+    })
+    .state('geofence', {
+      url: "/geofence/:geofenceId",
+      templateUrl: "templates/geofence.html",
+      controller: "GeofenceCtrl",
+      resolve: {
+        geofence: function ($stateParams, geofenceService, $q) {
+          var def = $q.defer();
+          var gf = geofenceService.findById($stateParams.geofenceId);
+          if (gf) {
+            def.resolve(gf);
+          } else {
+            def.reject();
+          }
+          return def.promise;
+        }
+      }
+    })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/dashboard');
 })
 
-.factory('device', ['$http', '$q', function($http, $q){
-  var urlBase = 'http://api.thingspeak.com/channels/';
-  var talkbackBase = 'http://api.thingspeak.com/talkbacks/';  
-  var device = {};
-
-  device.isdevice = '';
-
-  // http://api.thingspeak.com/channels/(channel_id)/feed/last.(format)
-
-  device.getFeedNow = function( items ) {
-    var httpPromises = [];
-    for (var i=0; i<items.length; i++) {
-      httpPromises.push($http.get(urlBase + items[i].channelId + '/feed/last.json?offset=7&key=' + items[i].readKey ));
-      // console.log(urlBase + items[i].channelId + '/feed/last.json?offset=7&key=' + items[i].readKey);
-    }
-    return httpPromises;
-  };
-
-  device.getFeedLog = function(channelId, readKey, days, average) {
-    // console.log(urlBase + channelId + '/feed.json?offset=7&key=' + readKey + '&days=' + days + '&average=' + average);
-    var feedLog = $http.get(urlBase + channelId + '/feed.json?offset=7&key=' + readKey + '&days=' + days + '&average=' + average );
-    // console.log(feedLog);
-    return feedLog;
-  }
-
-  device.calculateOverview = function( data ) {
-    // check isBase unit -> use as main power value
-    // if isBaseMember -> do not add
-    // else -> add
-    var overviewValue = { 'power': '', 'voltage':'', 'current':'' }
-    return overviewValue;
-  }
-
-  device.updateState = function( devices ) {
-    var httpPromises = [];
-    for (var i=0; i<devices.length; i++) {
-      httpPromises.push($http.get(talkbackBase + devices[i].talkbackId + '/commands/last?api_key=' + devices[i].talkbackKey));
-    }
-    return httpPromises;
-  }
-
-  device.controlDevices = function( devices ) {
-    var httpPromises = [];
-    var httpExecPromises = [];
-    for (var i=0; i<devices.length; i++) {
-      httpPromises.push($http.post(talkbackBase + devices[i].talkbackId + '/commands?api_key=' + devices[i].talkbackKey + "&command_string=" + devices[i].command + "&position=1"));
-      $q.all( httpPromises ).then( function(results) {
-        for (var i=0; i<devices.length; i++) {
-          httpExecPromises.push($http.post(talkbackBase + devices[i].talkbackId + '/commands/execute?api_key=' + devices[i].talkbackKey));
+.run(function ($window, $document, $ionicLoading, $state, $ionicPlatform, $log, $rootScope, toaster) {
+    $ionicPlatform.ready(function () {
+        $log.log('Ionic ready');
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if ($window.cordova && $window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
-      });
-    }
-    return httpExecPromises;
-  }
+        if ($window.StatusBar) {
+            StatusBar.styleDefault();
+        }
+        if ($window.geofence) {
+            $window.geofence.initialize();
 
-  function parseDate(inputDate) {
-    // inputDate is ISO8601 format "2014-10-01T05:10:47.357918Z"
-    return moment(inputDate).valueOf();
-  }
-
-  function mapToGraph(input, keyname) {
-    var output = [];
-    var timestamp;
-    var value;
-    input.map(function(obj) {
-      Object.keys(obj).sort().map(function(key) {
-        if (key == 'created_at') { timestamp = parseDate(obj[key]); }
-        if (key == keyname) { value = parseFloat(obj[key]); }
-      });
-      output.push([timestamp, value]);
+            $window.geofence.recieveTransition = function (geofences) {
+                $log.log(geofences);
+                if (geofences) {
+                    $rootScope.$apply(function () {
+                        geofences.forEach(function (geo) {
+                            toaster.pop('info', geo.notification.title, geo.notification.text);
+                        });
+                    });
+                }
+            };
+        }
+        if ($window.plugins && $window.plugins.webintent) {
+            $log.log('WebIntent plugin found');
+            $window.plugins.webintent.getExtra("geofence.notification.data",
+                function (geofenceJson) {
+                    if (geofenceJson) {
+                        var geofence = angular.fromJson(geofenceJson);
+                        $log.log('geofence.notification.data', geofence);
+                        $state.go('geofence', {
+                            geofenceId: geofence.id
+                        });
+                    }
+                },
+                function () {
+                    $log.log('no extra geofence.notification.data supplied');
+                    // There was no extra supplied.
+                }
+            );
+        }
     });
-    // console.log(output);
-    return output;
-  }
 
-  device.getGraph = function(feedLog, keyname, graphname) {
-    var graphData = [];
-    var graphPoint = mapToGraph( feedLog, keyname );
-    graphData.push( {"key": graphname, "values": graphPoint} );
-    return graphData;
-  }
-
-  device.getFeed = function(channelId, readKey) {
-    var feed = $http.get(urlBase + channelId + '/feed/last.json?offset=7&key=' + readKey );
-    return feed;
-  }
-
-  return device;
-}]);
+    //ionic loading fix - sometimes when changing state loading is not hiding
+    $rootScope.$on('$stateChangeStart',
+        function (event, toState, toParams, fromState, fromParams) {
+            $ionicLoading.hide();
+            $document[0].body.classList.remove('loading-active');
+        });
+    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+        $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
+        $state.go('geofences');
+    });
+});
 
 angular.module('d3', []);
 angular.module('starter.directives', ['d3']);

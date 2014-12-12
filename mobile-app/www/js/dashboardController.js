@@ -187,7 +187,7 @@ var app = angular.module('starter.controllers', [])
       rows: [{
         key: 'power',
         type: 'bar',
-        color:'goldenrod'
+        color:'forestgreen'
       }],
       xAxis: {
         key: 'day',
