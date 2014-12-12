@@ -60,16 +60,20 @@ app.controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $
     $scope.removeGeofence = function (geofence) {
         geofenceService.remove(geofence);
     }
-
     $scope.more = function () {
         // Show the action sheet
         $ionicActionSheet.show({
+            buttons: [
+              { text: 'Save changes' }
+            ],
             destructiveText: 'Delete all geofences',
-            titleText: 'More options',
             cancelText: 'Cancel',
             destructiveButtonClicked: function () {
                 geofenceService.removeAll();
                 return true;
+            },
+            buttonClicked: function(index) {
+                $state.go("app.settings");
             }
         });
     }

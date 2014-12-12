@@ -1,15 +1,14 @@
 <ion-view>
-  <ion-header-bar class="bar-positive" align-title="left">
-    <h1 class="title">Ionic geofence example</h1>
+  <ion-header-bar align-title="left" style="background-color: #f8f8f8;">
     <div class="buttons pull-right">
-      <button class="button pull-right button-icon icon ion-plus" ng-click="createNew()"></button>
-      <button class="button pull-right button-icon icon ion-more" ng-click="more()"></button>
+      <button class="button pull-right button-icon icon ion-plus" style="color:#66cc33" ng-click="createNew()"></button>
+      <button class="button pull-right button-icon icon ion-more" style="color:#66cc33" ng-click="more()"></button>
     </div>
   </ion-header-bar>
-  <ion-content>
+  <ion-content style="background-color:beige;font-family: 'Roboto', sans-serif;">
     <ion-list can-swipe="true">
       <ion-item ng-click="editGeofence(geofence)" class="item item-icon-right" ng-repeat="geofence in geofences">
-        <p>{{ geofence.notification.text }}</p>
+        <h2>{{ geofence.notification.text }}</h2>
         <i class="icon ion-trash-b" ion-stop-event="click" ng-click="removeGeofence(geofence)"></i>
       </ion-item>
     </ion-list>
@@ -18,8 +17,5 @@
         No geofences added yet.
       </div>
     </div>
-    <button class="button button-block button-balanced" ui-sref="app.settings">
-      Confim geofences
-    </button>
   </ion-content>
 </ion-view>

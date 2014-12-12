@@ -1,19 +1,19 @@
-<ion-view title="Geofence details">
-    <ion-nav-bar class="bar-positive" animation="nav-title-slide-ios7">
-        <button class="button button-icon" ui-sref="geofences">
+<ion-view title="NEW GEOFENCE">
+    <ion-nav-bar animation="nav-title-slide-android" style="background-color: #f8f8f8;font-family: 'Roboto', sans-serif;">
+        <button class="button button-icon" style="color:#66cc33" ui-sref="geofences">
             <i class="ion-chevron-left"></i>
         </button>
         <div class="buttons pull-right">
-            <button class="button button-icon icon ion-checkmark" ng-click="save()"></button>
+            <button style="color:#66cc33" class="button button-icon icon ion-checkmark" ng-click="save()"></button>
         </div>
     </ion-nav-bar>
-    <ion-content scroll="false">
-        <label class="item item-input">
+    <ion-content scroll="false" style="background-color:beige;font-family: 'Roboto', sans-serif;">
+        <label class="item item-input"  style="background-color: beige;">
             <input type="text" placeholder="Enter notification text" ng-model="geofence.notification.text" hide-keyboard-on-enter>  
         </label>
         <div class="button-bar">
-            <a class="button" ng-class=" isWhenGettingCloser() ? 'button-positive' : 'button-light'" ng-click="chooseWhenIgetCloser()">When I get close</a>
-            <a class="button" ng-class=" isWhenGettingCloser() ? 'button-light' : 'button-positive'" ng-click="chooseWhenIamLeaving()">When I go away</a>
+            <a class="button" ng-class=" isWhenGettingCloser() ? 'button-balanced' : 'button-light'" ng-click="chooseWhenIgetCloser()">When I get close</a>
+            <a class="button" ng-class=" isWhenGettingCloser() ? 'button-light' : 'button-balanced'" ng-click="chooseWhenIamLeaving()">When I go away</a>
         </div>
         <div class="range" data-tap-disabled="true">
           on
