@@ -3267,7 +3267,8 @@ design rules under a new name.</description>
 <wire x1="105.525" y1="21.775" x2="108.65" y2="24.9" width="0.6096" layer="16"/>
 <wire x1="95.35" y1="5.15" x2="105.85" y2="5.15" width="0.6096" layer="16"/>
 <wire x1="105.85" y1="5.15" x2="107.8" y2="7.1" width="0.6096" layer="16"/>
-<wire x1="107.8" y1="7.1" x2="107.8" y2="19.5" width="0.6096" layer="16"/>
+<wire x1="107.8" y1="7.1" x2="107.8" y2="18" width="0.6096" layer="16"/>
+<wire x1="107.8" y1="18.08" x2="107.8" y2="19.5" width="0.6096" layer="16"/>
 <wire x1="107.8" y1="19.5" x2="105.525" y2="21.775" width="0.6096" layer="16"/>
 <wire x1="91.8" y1="8.955" x2="91.8" y2="6.1" width="0.6096" layer="1"/>
 <wire x1="91.8" y1="6.1" x2="92.75" y2="5.15" width="0.6096" layer="1"/>
@@ -3297,6 +3298,9 @@ design rules under a new name.</description>
 <wire x1="57" y1="40.3" x2="62.73" y2="46.03" width="1.27" layer="16"/>
 <wire x1="62.73" y1="46.03" x2="62.73" y2="46.5" width="1.27" layer="16"/>
 <wire x1="62.55" y1="34.75" x2="62.55" y2="21.95" width="1.6764" layer="16"/>
+<contactref element="JP2" pad="9"/>
+<wire x1="106.17" y1="18.08" x2="107.8" y2="18.08" width="0.6096" layer="16"/>
+<wire x1="107.8" y1="18.08" x2="107.8" y2="18" width="0.6096" layer="16"/>
 </signal>
 <signal name="SCL">
 <contactref element="U1" pad="6"/>
@@ -3761,9 +3765,6 @@ design rules under a new name.</description>
 <via x="91.5" y="19.45" extent="1-16" drill="0.5"/>
 <wire x1="91.5" y1="19.45" x2="91.8" y2="19.15" width="0.6096" layer="1"/>
 <wire x1="91.8" y1="19.15" x2="91.8" y2="17.845" width="0.6096" layer="1"/>
-</signal>
-<signal name="N$30">
-<contactref element="JP2" pad="9"/>
 </signal>
 <signal name="DHT_DATA">
 <contactref element="U2" pad="DATA"/>
