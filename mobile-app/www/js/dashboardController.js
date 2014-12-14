@@ -44,10 +44,13 @@ var app = angular.module('starter.controllers', [])
           $scope.channels.push( item );
         }
       });
+      $scope.getOverview();
+      $scope.getGraph();
       // console.log($scope.devices);
     });
 
     $scope.widgetval = { 'power':'', 'voltage':'', 'current':''};
+
     $scope.getOverview = function() {
       $scope.overviewPromise = device.getFeedNow( $scope.devices );
       // console.log($scope.overviewPromise);
@@ -56,16 +59,19 @@ var app = angular.module('starter.controllers', [])
         angular.forEach(results, function(result) {
           data = data.concat(result.data);
         });
-        $scope.widgetval = device.calculateOverview(data);
+        // console.log(data);
+        $scope.widgetval.power = data[1].field1;
       })
     }
 
+    $scope.powerData = [];
+
     $scope.getGraph = function () {
-      $scope.graphPromise = device.getFeedLog($scope.devices[0].channelId, $scope.devices[0].readKey, 7, 15);
+      $scope.graphPromise = device.getFeedLog($scope.devices[1].channelId, $scope.devices[1].readKey, 7, 15); // should be device 0
       $scope.graphPromise.then(function (data) {
         var feedData = data.data.feeds;
+        // console.log(feedData);
         $scope.powerData = device.getGraph(feedData, 'field1', "Power");
-        // console.log($scope.voltData);
       });
     }
 
@@ -107,74 +113,6 @@ var app = angular.module('starter.controllers', [])
     $scope.voltage = 0;    
     $scope.current = 0;
 
-    $scope.dataset = [
-      {
-        'day': '2013-01-02_00:00:00',
-        'power': 1.05
-      },
-      {
-        'day': '2013-01-02_01:00:00',
-        'power': 1.25
-      },
-      {
-        'day': '2013-01-02_02:00:00',
-        'power': 1.71
-      },           
-      {
-        'day': '2013-01-02_03:00:00',
-        'power': 1.75
-      },
-      {
-        'day': '2013-01-02_04:00:00',
-        'power': 1.81
-      },
-      {
-        'day': '2013-01-02_05:00:00',
-        'power': 1.79
-      },
-      {
-        'day': '2013-01-02_06:00:00',
-        'power': 1.71
-      },           
-      {
-        'day': '2013-01-02_07:00:00',
-        'power': 1.73
-      },
-      {
-        'day': '2013-01-02_08:00:00',
-        'power': 1.55
-      },
-      {
-        'day': '2013-01-02_09:00:00',
-        'power': 1.65
-      },
-      {
-        'day': '2013-01-02_10:00:00',
-        'power': 1.52
-      },           
-      {
-        'day': '2013-01-02_11:00:00',
-        'power': 1.59
-      },
-      {
-        'day': '2013-01-02_12:00:00',
-        'power': 1.14
-      },
-      {
-        'day': '2013-01-02_13:00:00',
-        'power': 1.10
-      },
-      {
-        'day': '2013-01-02_14:00:00',
-        'power': 1.23
-      },           
-      {
-        'day': '2013-01-02_15:00:00',
-        'power': 1.29
-      }
-
-    ];
-
     $scope.schema = {
       day: {
         type: 'datetime',
@@ -185,12 +123,12 @@ var app = angular.module('starter.controllers', [])
 
     $scope.options = {
       rows: [{
-        key: 'power',
+        key: 'field1',
         type: 'bar',
         color:'forestgreen'
       }],
       xAxis: {
-        key: 'day',
+        key: 'created_at',
         displayFormat: '%H:%M',
         show:false,
       },
@@ -208,33 +146,8 @@ var app = angular.module('starter.controllers', [])
       }
     };
 
-    $scope.getCurrentVal = function() {
-      $http({
-        method: 'GET',
-        url: "http://www.corsproxy.com/afternoon-cove-4361.herokuapp.com/meng?",
-        data: '' }).
-      success(function(data, status) {
-        // console.log("get current energy val");
-        // console.log("data:" + data);
-        var parsed;
-        parsed = data.split(",") 
-        $scope.power = parsed[2];
-        $scope.current = parsed[1];
-        $scope.voltage = parsed[0];        
-        // console.log("power: " + $scope.power)
-        // console.log("current: " + $scope.current)        
-        return data;
-      }).
-      error(function(data, status) {
-        // console.log("get current energy val failed");
-        // console.log("data:" + data);
-        return data;
-      });      
-    }
-
     $scope.intervalFunction = function(){
       $timeout(function() {
-        $scope.getCurrentVal();
         $scope.updateState();
         $scope.intervalFunction();
       }, 10000)

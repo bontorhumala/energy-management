@@ -21,88 +21,24 @@ var app = angular.module('starter')
         item.point = value.point;
         item.desc = value.desc;
         item.type = value.type;
-        $scope.devices.push( item );
-        $scope.getGraph();
+        $scope.devices.push( item );        
       });
+      $scope.getGraph();
       // console.log($scope.devices);
     });
 
+    $scope.temperatureData = [];
+    $scope.humidityData = [];
+
     $scope.getGraph = function () {
-      $scope.graphPromise = device.getFeedLog($scope.devices[0].channelId, $scope.devices[0].readKey, 7, 15);
+      $scope.graphPromise = device.getFeedLog($scope.devices[1].channelId, $scope.devices[1].readKey, 7, 15); // should be device 0
       $scope.graphPromise.then(function (data) {
         var feedData = data.data.feeds;
-        $scope.temperatureData = device.getGraph(feedData, 'field5', "Temperature");
-        $scope.humidityData = device.getGraph(feedData, 'field6', "Humidity");
-        // console.log($scope.voltData);
+        // console.log(feedData);
+        // $scope.temperatureData = device.getGraph(feedData, 'field5', "Temperature");
+        // $scope.humidityData = device.getGraph(feedData, 'field6', "Humidity");
       });
     }
-
-    $scope.datasetHum = [
-      {
-        'day': '2013-01-02_00:00:00',
-        'humidity': 1.05
-      },
-      {
-        'day': '2013-01-02_01:00:00',
-        'humidity': 1.25
-      },
-      {
-        'day': '2013-01-02_02:00:00',
-        'humidity': 1.71
-      },           
-      {
-        'day': '2013-01-02_03:00:00',
-        'humidity': 1.75
-      },
-      {
-        'day': '2013-01-02_04:00:00',
-        'humidity': 1.81
-      },
-      {
-        'day': '2013-01-02_05:00:00',
-        'humidity': 1.79
-      },
-      {
-        'day': '2013-01-02_06:00:00',
-        'humidity': 1.71
-      },           
-      {
-        'day': '2013-01-02_07:00:00',
-        'humidity': 1.73
-      },
-      {
-        'day': '2013-01-02_08:00:00',
-        'humidity': 1.55
-      },
-      {
-        'day': '2013-01-02_09:00:00',
-        'humidity': 1.65
-      },
-      {
-        'day': '2013-01-02_10:00:00',
-        'humidity': 1.52
-      },           
-      {
-        'day': '2013-01-02_11:00:00',
-        'humidity': 1.59
-      },
-      {
-        'day': '2013-01-02_12:00:00',
-        'humidity': 1.14
-      },
-      {
-        'day': '2013-01-02_13:00:00',
-        'humidity': 1.10
-      },
-      {
-        'day': '2013-01-02_14:00:00',
-        'humidity': 1.23
-      },           
-      {
-        'day': '2013-01-02_15:00:00',
-        'humidity': 1.29
-      }
-    ];
 
     $scope.schemaHum = {
       day: {
@@ -114,12 +50,12 @@ var app = angular.module('starter')
 
     $scope.optionsHum = {
       rows: [{
-        key: 'humidity',
+        key: 'field6',
         type: 'bar',
         color:'skyblue'
       }],
       xAxis: {
-        key: 'day',
+        key: 'created_at',
         displayFormat: '%H:%M',
         show:false,
       },
@@ -137,74 +73,6 @@ var app = angular.module('starter')
       }
     };
 
-    $scope.datasetTemp = [
-      {
-        'day': '2013-01-02_00:00:00',
-        'temperature': 1.05
-      },
-      {
-        'day': '2013-01-02_01:00:00',
-        'temperature': 1.25
-      },
-      {
-        'day': '2013-01-02_02:00:00',
-        'temperature': 1.71
-      },           
-      {
-        'day': '2013-01-02_03:00:00',
-        'temperature': 1.75
-      },
-      {
-        'day': '2013-01-02_04:00:00',
-        'temperature': 1.81
-      },
-      {
-        'day': '2013-01-02_05:00:00',
-        'temperature': 1.79
-      },
-      {
-        'day': '2013-01-02_06:00:00',
-        'temperature': 1.71
-      },           
-      {
-        'day': '2013-01-02_07:00:00',
-        'temperature': 1.73
-      },
-      {
-        'day': '2013-01-02_08:00:00',
-        'temperature': 1.55
-      },
-      {
-        'day': '2013-01-02_09:00:00',
-        'temperature': 1.65
-      },
-      {
-        'day': '2013-01-02_10:00:00',
-        'temperature': 1.52
-      },           
-      {
-        'day': '2013-01-02_11:00:00',
-        'temperature': 1.59
-      },
-      {
-        'day': '2013-01-02_12:00:00',
-        'temperature': 1.14
-      },
-      {
-        'day': '2013-01-02_13:00:00',
-        'temperature': 1.10
-      },
-      {
-        'day': '2013-01-02_14:00:00',
-        'temperature': 1.23
-      },           
-      {
-        'day': '2013-01-02_15:00:00',
-        'temperature': 1.29
-      }
-
-    ];
-
     $scope.schemaTemp = {
       day: {
         type: 'datetime',
@@ -215,12 +83,12 @@ var app = angular.module('starter')
 
     $scope.optionsTemp = {
       rows: [{
-        key: 'temperature',
+        key: 'field5',
         type: 'bar',
         color:'salmon'
       }],
       xAxis: {
-        key: 'day',
+        key: 'created_at',
         displayFormat: '%H:%M',
         show:false,
       },

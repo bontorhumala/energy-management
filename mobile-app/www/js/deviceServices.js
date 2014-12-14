@@ -60,26 +60,15 @@ angular.module('starter')
     return moment(inputDate).valueOf();
   }
 
-  function mapToGraph(input, keyname) {
-    var output = [];
-    var timestamp;
-    var value;
-    input.map(function(obj) {
-      Object.keys(obj).sort().map(function(key) {
-        if (key == 'created_at') { timestamp = parseDate(obj[key]); }
-        if (key == keyname) { value = parseFloat(obj[key]); }
-      });
-      output.push([timestamp, value]);
-    });
-    // console.log(output);
-    return output;
-  }
-
   device.getGraph = function(feedLog, keyname, graphname) {
-    var graphData = [];
-    var graphPoint = mapToGraph( feedLog, keyname );
-    graphData.push( {"key": graphname, "values": graphPoint} );
-    return graphData;
+    // console.log(feedLog);
+    // console.log(feedLog.length);    
+    for (var i=0; i<feedLog.length; i++) {
+      feedLog[i][keyname] = parseFloat(parseFloat(feedLog[i][keyname]).toFixed(2));
+      feedLog[i].created_at = feedLog[i].created_at.replace("T", "_");
+      feedLog[i].created_at = feedLog[i].created_at.substring(0, feedLog[i].created_at.indexOf('+'));
+    }
+    return feedLog;
   }
 
   device.getFeed = function(channelId, readKey) {

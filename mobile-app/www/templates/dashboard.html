@@ -2,7 +2,7 @@
   <ion-content style="background-color:beige">
     <div class="row" style="width: 100%">
       <div class="col" style="padding-top:0px">
-        <div class="power-medium">{{power}}</div>
+        <div class="power-medium">{{widgetval.power}}</div>
         <div class="power-medium">kWh</div><br>
         <div class="description">consumed</div>
       </div>
@@ -31,7 +31,7 @@
       </div>    
     </div>
     <div class="row" style="width: 100%">
-      <angularchart dataset="dataset" schema="schema" options="options">
+      <angularchart dataset="powerData" schema="schema" options="options">
       </angularchart>
     </div>
   </ion-content>
