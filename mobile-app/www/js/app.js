@@ -13,7 +13,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
     .state('app', {
       url: "/app",
       abstract: true,
-      templateUrl: "templates/menu.html"
+      templateUrl: "templates/menu.html",
+      resolve: {
+        fireSite : function ($firebase) {
+          var promise;
+          var URL = "https://enerman.firebaseio.com/";
+          // Synchronizing the devices on our $scope
+          FireSites = $firebase(new Firebase(URL + '/devices')).$asArray();
+          promise = FireSites.$loaded();
+          return promise;                       
+        }
+      }
     })
 
     .state('app.dashboard', {
@@ -22,6 +32,48 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         'dashboard': {
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
+        }
+      },
+      resolve: {      
+        mapDevice: function (fireSite) {
+          var devices = [];
+          var channels = [];
+          // console.log(fireSite);          
+          fireSite.forEach(function(value, i) {
+            var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+            item.id = value.id;
+            item.name = value.name;
+            item.channelId = value.channel;
+            item.talkbackId = value.talkback;
+            item.talkbackKey = value.talkbackKey;
+            item.writeKey = value.writeKey;
+            item.readKey = value.readKey;
+            item.point = value.point;
+            item.desc = value.desc;
+            item.type = value.type;
+            devices.push( item );
+            if (Array.isArray(item.point)) {
+              for (var i=0; i< item.point.length; i++) {
+                var channelItem = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+                channelItem.id = item.id;
+                channelItem.name = item.name;
+                channelItem.channelId = item.channelId;            
+                channelItem.talkbackId = item.talkbackId;
+                channelItem.talkbackKey = item.talkbackKey;            
+                channelItem.writeKey = item.writeKey;
+                channelItem.readKey = item.readKey;
+                channelItem.point = item.point[i];
+                channelItem.desc = item.desc[i];                    
+                channelItem.type = item.type;
+                // console.log(channelItem);
+                channels.push( channelItem );
+              }
+            }
+            else {
+              channels.push( item );
+            }
+          })
+          return devices;
         }
       }
     })
@@ -32,6 +84,54 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
           templateUrl: 'templates/control.html',
           controller: 'ControlCtrl'
         }
+      },
+      resolve: {      
+        mapDevice: function (fireSite) {
+          var devices = [];
+          // console.log(fireSite);          
+          fireSite.forEach(function(value, i) {
+            var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+            item.id = value.id;
+            item.name = value.name;
+            item.channelId = value.channel;
+            item.talkbackId = value.talkback;
+            item.talkbackKey = value.talkbackKey;
+            item.writeKey = value.writeKey;
+            item.readKey = value.readKey;
+            item.point = value.point;
+            item.desc = value.desc;
+            item.type = value.type;
+            devices.push( item );
+          })
+          return devices;
+        },
+        mapChannel: function (fireSite) {
+          var channels = [];
+          // console.log(fireSite);          
+          fireSite.forEach(function(value, i) {
+            if (Array.isArray(value.point)) {
+              for (var i=0; i< value.point.length; i++) {
+                var channelItem = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+                channelItem.id = value.id;
+                channelItem.name = value.name;
+                channelItem.channelId = value.channelId;            
+                channelItem.talkbackId = value.talkbackId;
+                channelItem.talkbackKey = value.talkbackKey;            
+                channelItem.writeKey = value.writeKey;
+                channelItem.readKey = value.readKey;
+                channelItem.point = value.point[i];
+                channelItem.desc = value.desc[i];                    
+                channelItem.type = value.type;
+                // console.log(channelItem);
+                channels.push( channelItem );
+              }
+            }
+            else {
+              channels.push( value );
+            }
+          })
+          return channels;
+        }        
       }
     })
     .state('app.log', {
