@@ -33,10 +33,6 @@ svg {
   margin: auto;  
 }
 
-.schedule-center {
-  margin: auto;
-}
-
 .small {
   width: 80px;
   height: 80px;
@@ -117,7 +113,7 @@ h1 { font-family: 'Syncopate', sans-serif; }
 }
 
 .form-settings {
-  background-color: beige;
+  background-color: #ecfaec;
 }
 
 #point::-webkit-input-placeholder {

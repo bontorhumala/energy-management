@@ -4,21 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.directives', 'angularChart'])
-// ui.bootstrap.datetimepicker'
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
+angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.directives', 'angularChart', 'firebase', 'leaflet-directive', 'toaster'])
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -27,7 +13,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
     .state('app', {
       url: "/app",
       abstract: true,
-      templateUrl: "templates/menu.html"
+      templateUrl: "templates/menu.html",
+      resolve: {
+        fireSite : function ($firebase) {
+          var promise;
+          var URL = "https://enerman.firebaseio.com/";
+          // Synchronizing the devices on our $scope
+          FireSites = $firebase(new Firebase(URL + 'devices')).$asArray();
+          promise = FireSites.$loaded();
+          return promise;
+        }
+      }
     })
 
     .state('app.dashboard', {
@@ -36,6 +32,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         'dashboard': {
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
+        }
+      },
+      resolve: {      
+        mapDevice: function (fireSite) {
+          var devices = [];
+          var channels = [];
+          // console.log(fireSite);          
+          fireSite.forEach(function(value, i) {
+            var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+            item.id = value.id;
+            item.name = value.name;
+            item.channelId = value.channel;
+            item.talkbackId = value.talkback;
+            item.talkbackKey = value.talkbackKey;
+            item.writeKey = value.writeKey;
+            item.readKey = value.readKey;
+            item.point = value.point;
+            item.desc = value.desc;
+            item.type = value.type;
+            devices.push( item );
+          })
+          return devices;
         }
       }
     })
@@ -46,6 +64,54 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
           templateUrl: 'templates/control.html',
           controller: 'ControlCtrl'
         }
+      },
+      resolve: {      
+        mapDevice: function (fireSite) {
+          var devices = [];
+          // console.log(fireSite);          
+          fireSite.forEach(function(value, i) {
+            var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+            item.id = value.id;
+            item.name = value.name;
+            item.channelId = value.channel;
+            item.talkbackId = value.talkback;
+            item.talkbackKey = value.talkbackKey;
+            item.writeKey = value.writeKey;
+            item.readKey = value.readKey;
+            item.point = value.point;
+            item.desc = value.desc;
+            item.type = value.type;
+            devices.push( item );
+          })
+          return devices;
+        },
+        mapChannel: function (fireSite) {
+          var channels = [];
+          // console.log(fireSite);          
+          fireSite.forEach(function(value, i) {
+            if (Array.isArray(value.point)) {
+              for (var i=0; i< value.point.length; i++) {
+                var channelItem = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+                channelItem.id = value.id;
+                channelItem.name = value.name;
+                channelItem.channelId = value.channelId;            
+                channelItem.talkbackId = value.talkbackId;
+                channelItem.talkbackKey = value.talkbackKey;            
+                channelItem.writeKey = value.writeKey;
+                channelItem.readKey = value.readKey;
+                channelItem.point = value.point[i];
+                channelItem.desc = value.desc[i];                    
+                channelItem.type = value.type;
+                // console.log(channelItem);
+                channels.push( channelItem );
+              }
+            }
+            else {
+              channels.push( value );
+            }
+          })
+          return channels;
+        }        
       }
     })
     .state('app.log', {
@@ -55,7 +121,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
           templateUrl: 'templates/log.html',
           controller: 'LogCtrl'
         }
-      }
+      },
+      resolve: {      
+        mapDevice: function (fireSite) {
+          var devices = [];
+          var channels = [];
+          // console.log(fireSite);          
+          fireSite.forEach(function(value, i) {
+            var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
+            item.id = value.id;
+            item.name = value.name;
+            item.channelId = value.channel;
+            item.talkbackId = value.talkback;
+            item.talkbackKey = value.talkbackKey;
+            item.writeKey = value.writeKey;
+            item.readKey = value.readKey;
+            item.point = value.point;
+            item.desc = value.desc;
+            item.type = value.type;
+            devices.push( item );
+          })
+          return devices;
+        }
+      }      
     })
     .state('app.environmental', {
       url: '/environmental',
@@ -65,7 +153,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
           controller: 'EnvironmentalCtrl'
         }
       }
-    })    
+    })
     .state('app.settings', {
       url: '/settings',
       views: {
@@ -75,10 +163,88 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         }
       }
     })
-
+    .state('geofences', {
+      url: "/geofences",      
+      templateUrl: "templates/geofences.html",
+      controller: "GeofencesCtrl"
+    })
+    .state('geofence', {
+      url: "/geofence/:geofenceId",
+      templateUrl: "templates/geofence.html",
+      controller: "GeofenceCtrl",
+      resolve: {
+        geofence: function ($stateParams, geofenceService, $q) {
+          var def = $q.defer();
+          var gf = geofenceService.findById($stateParams.geofenceId);
+          if (gf) {
+            def.resolve(gf);
+          } else {
+            def.reject();
+          }
+          return def.promise;
+        }
+      }
+    })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/dashboard');
+})
+
+.run(function ($window, $document, $ionicLoading, $state, $ionicPlatform, $log, $rootScope, toaster) {
+    $ionicPlatform.ready(function () {
+        $log.log('Ionic ready');
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if ($window.cordova && $window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        }
+        if ($window.StatusBar) {
+            StatusBar.styleDefault();
+        }
+        if ($window.geofence) {
+            $window.geofence.initialize();
+
+            $window.geofence.recieveTransition = function (geofences) {
+                $log.log(geofences);
+                if (geofences) {
+                    $rootScope.$apply(function () {
+                        geofences.forEach(function (geo) {
+                            toaster.pop('info', geo.notification.title, geo.notification.text);
+                        });
+                    });
+                }
+            };
+        }
+        if ($window.plugins && $window.plugins.webintent) {
+            $log.log('WebIntent plugin found');
+            $window.plugins.webintent.getExtra("geofence.notification.data",
+                function (geofenceJson) {
+                    if (geofenceJson) {
+                        var geofence = angular.fromJson(geofenceJson);
+                        $log.log('geofence.notification.data', geofence);
+                        $state.go('geofence', {
+                            geofenceId: geofence.id
+                        });
+                    }
+                },
+                function () {
+                    $log.log('no extra geofence.notification.data supplied');
+                    // There was no extra supplied.
+                }
+            );
+        }
+    });
+
+    //ionic loading fix - sometimes when changing state loading is not hiding
+    $rootScope.$on('$stateChangeStart',
+        function (event, toState, toParams, fromState, fromParams) {
+            $ionicLoading.hide();
+            $document[0].body.classList.remove('loading-active');
+        });
+    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+        $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
+        $state.go('geofences');
+    });
 });
 
 angular.module('d3', []);

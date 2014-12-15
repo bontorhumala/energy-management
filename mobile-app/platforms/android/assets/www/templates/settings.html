@@ -1,7 +1,7 @@
 <ion-view title="Settings">
-  <ion-content style="background-color:beige">    
+  <ion-content style="background-color:#ecfaec">    
     <div class="list">
-      <div class="item item-divider dashboard-item" style="background-color: white; color:slategray"> 
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
         User Settings
       </div>
       <label class="item item-input form-settings">
@@ -12,18 +12,25 @@
       </label>
       <label class="item item-input form-settings">
         <input type="text" placeholder="Confirm password">
-      </label>  
+      </label>
+      <button class="button button-block button-balanced" ui-sref="geofences">
+        Set geofences
+      </button>
 
-      <div class="item item-divider dashboard-item" style="background-color: white; color:slategray"> 
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
         Device Settings
       </div>
-      <label class="item item-input form-settings">
-        <input type="text" placeholder="Device name">
-      </label>
-      <label class="item item-input form-settings">
-        <input type="text" placeholder="Description">
-      </label>
-      <button class="button button-block button-energized">
+      <div class="list">
+        <div ng-repeat="channel in channels">
+          <label class="item item-input form-settings">
+            <input type="text" placeholder={{channel.point}}>
+          </label>
+          <label class="item item-input form-settings">
+            <input id="desc" type="text" placeholder={{channel.desc}}>
+          </label>
+        </div>
+      </div>
+      <button class="button button-block button-balanced">
         Confirm changes
       </button>
     </div>

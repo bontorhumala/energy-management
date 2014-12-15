@@ -15,7 +15,7 @@ svg {
 
 .line {
   fill: none;
-  stroke: goldenrod;
+  stroke: forestgreen;
   stroke-width: 1.5px;
 }
 
@@ -31,10 +31,6 @@ svg {
   background-color: slategray;
   color: white;
   margin: auto;  
-}
-
-.schedule-center {
-  margin: auto;
 }
 
 .small {
@@ -108,7 +104,7 @@ h1 { font-family: 'Syncopate', sans-serif; }
 .header-bottom-bar {
   top: 0;
   border-top-width: 0;
-  box-shadow: 0px 3px 0px gold;}
+  box-shadow: 0px 3px 0px forestgreen;}
 }
 
 .devices-list {
@@ -117,5 +113,37 @@ h1 { font-family: 'Syncopate', sans-serif; }
 }
 
 .form-settings {
-  background-color: beige;
+  background-color: #ecfaec;
+}
+
+#point::-webkit-input-placeholder {
+   font-weight: bold;
+}
+
+#point:-moz-placeholder { /* Firefox 18- */
+   font-weight: bold;
+}
+
+#point::-moz-placeholder {  /* Firefox 19+ */
+   font-weight: bold;
+}
+
+#point:-ms-input-placeholder {  
+   font-weight: bold;
+}
+
+#desc::-webkit-input-placeholder {
+   font-style: italic;
+}
+
+#desc:-moz-placeholder { /* Firefox 18- */
+   font-style: italic;
+}
+
+#desc::-moz-placeholder {  /* Firefox 19+ */
+   font-style: italic;
+}
+
+#desc:-ms-input-placeholder {  
+   font-style: italic;
 }

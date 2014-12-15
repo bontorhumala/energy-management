@@ -75,7 +75,7 @@ var app = angular.module('starter.controllers', [])
     $scope.current = 0;
 
     $scope.schema = {
-      day: {
+      created_at: {
         type: 'datetime',
         format: '%Y-%m-%d_%H:%M:%S',
         name: 'Date'
@@ -86,7 +86,7 @@ var app = angular.module('starter.controllers', [])
       rows: [{
         key: 'field1',
         type: 'bar',
-        color:'forestgreen'
+        color:'slategray'
       }],
       xAxis: {
         key: 'created_at',

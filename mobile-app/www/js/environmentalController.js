@@ -41,7 +41,7 @@ var app = angular.module('starter')
     }
 
     $scope.schemaHum = {
-      day: {
+      created_at: {
         type: 'datetime',
         format: '%Y-%m-%d_%H:%M:%S',
         name: 'Date'
@@ -74,7 +74,7 @@ var app = angular.module('starter')
     };
 
     $scope.schemaTemp = {
-      day: {
+      created_at: {
         type: 'datetime',
         format: '%Y-%m-%d_%H:%M:%S',
         name: 'Date'

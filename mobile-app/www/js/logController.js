@@ -1,31 +1,8 @@
 var app = angular.module('starter')
 
-  app.controller('LogCtrl', function($scope, $firebase, device) {
+  app.controller('LogCtrl', function($scope, $firebase, device, mapDevice) {
 
-    $scope.devices = [];
-
-    var URL = "https://enerman.firebaseio.com/";
-    // Synchronizing the devices on our $scope
-    $scope.FireSites = $firebase(new Firebase(URL + '/devices')).$asArray();
-    $scope.FireSites.$loaded().then(function() {
-      $scope.FireSites.forEach(function(value, i) {
-        // console.log(value);
-        var item = { 'id':'', 'name':'', 'channelId':'', 'talkbackId':'', 'talkbackKey':'', 'writeKey':'', 'readKey':'', 'point':'', 'desc':'', 'type':'', 'command':''};
-        item.id = value.id;
-        item.name = value.name;
-        item.channelId = value.channel;
-        item.talkbackId = value.talkback;
-        item.talkbackKey = value.talkbackKey;
-        item.writeKey = value.writeKey;
-        item.readKey = value.readKey;
-        item.point = value.point;
-        item.desc = value.desc;
-        item.type = value.type;
-        $scope.devices.push( item );
-      });
-      // console.log($scope.devices);
-      $scope.getGraph();
-    });
+    $scope.devices = mapDevice;
 
     $scope.powerData = [];
     $scope.voltageData = [];
@@ -43,7 +20,7 @@ var app = angular.module('starter')
     }
 
     $scope.schemaVoltage = {
-      day: {
+      created_at: {
         type: 'datetime',
         format: '%Y-%m-%d_%H:%M:%S',
         name: 'Date'
@@ -54,7 +31,7 @@ var app = angular.module('starter')
       rows: [{
         key: 'field2',
         type: 'bar',
-        color:'#ff8c69'
+        color:'slategray'
       }],
       xAxis: {
         key: 'created_at',
@@ -76,7 +53,7 @@ var app = angular.module('starter')
     };   
 
     $scope.schemaCurrent = {
-      day: {
+      created_at: {
         type: 'datetime',
         format: '%Y-%m-%d_%H:%M:%S',
         name: 'Date'
@@ -87,7 +64,7 @@ var app = angular.module('starter')
       rows: [{
         key: 'field3',
         type: 'bar',
-        color:'#69ff8c'
+        color:'slategray'
       }],
       xAxis: {
         key: 'created_at',
@@ -109,7 +86,7 @@ var app = angular.module('starter')
     };    
 
     $scope.schemaPower = {
-      day: {
+      created_at: {
         type: 'datetime',
         format: '%Y-%m-%d_%H:%M:%S',
         name: 'Date'
@@ -120,7 +97,7 @@ var app = angular.module('starter')
       rows: [{
         key: 'field1',
         type: 'bar',
-        color:'#8c69ff'
+        color:'slategray'
       }],
       xAxis: {
         key: 'created_at',

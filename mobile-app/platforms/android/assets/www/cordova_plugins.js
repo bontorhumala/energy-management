@@ -29,6 +29,13 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
+        "id": "org.apache.cordova.splashscreen.SplashScreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
         "file": "plugins/com.vladstirbu.cordova.promise/www/promise.js",
         "id": "com.vladstirbu.cordova.promise.Promise",
         "clobbers": [
@@ -45,6 +52,7 @@ module.exports.metadata =
     "com.cowbell.cordova.geofence": "0.2.4",
     "com.borismus.webintent": "1.0.0",
     "org.apache.cordova.geolocation": "0.3.12-dev",
+    "org.apache.cordova.splashscreen": "0.3.5",
     "com.vladstirbu.cordova.promise": "1.0.0"
 }
 // BOTTOM OF METADATA

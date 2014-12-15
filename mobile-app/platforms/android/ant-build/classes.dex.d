@@ -1,5 +1,27 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes.dex : \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/org/apache/cordova/splashscreen/SplashScreen.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/org/apache/cordova/device/Device.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/borismus/webintent/WebIntent.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeoNotificationManager$2.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/BootReceiver.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/AbstractGoogleServiceCommand.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeoNotificationStore.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/RemoveGeofenceCommand.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeofencePlugin.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/Logger.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeoNotificationManager.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/LocalStorage.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeoNotificationNotifier.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GoogleServiceCommandExecutor.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/ReceiveTransitionsIntentService.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeoNotification.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/Notification.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/LocalStorageDBHelper.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/AddGeofenceCommand.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/JSONHelper.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/IGoogleServiceCommandListener.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/BeepHelper.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeoNotificationManager$1.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionicframework/come366613/R$string.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionicframework/come366613/R.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionicframework/come366613/come.class \
@@ -12,3 +34,6 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard$1.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/dexedLibs/classes-a2e6f9fb98bb0a7718f3399a851edf0f.jar \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/dexedLibs/gson-2.3-53617a6a9255e819bffbe35a14ff3ef9.jar \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/dexedLibs/google-play-services-aedc814b3e54d025308e91ccff4e6e6d.jar \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/dexedLibs/android-support-v4-5d34b26cd4dd7b63dcb4ee8784bbdd20.jar \
