@@ -3635,16 +3635,20 @@ design rules under a new name.</description>
 </signal>
 <signal name="DS">
 <contactref element="IC3" pad="14"/>
-<contactref element="U$1" pad="D11"/>
 <wire x1="91.8" y1="11.495" x2="81.445" y2="11.495" width="0.6096" layer="1"/>
-<wire x1="81.445" y1="11.495" x2="77.96" y2="8.01" width="0.6096" layer="1"/>
-<wire x1="77.96" y1="8.01" x2="77.96" y2="2.58" width="0.6096" layer="1"/>
+<wire x1="81.445" y1="11.495" x2="78.975" y2="9.025" width="0.6096" layer="1"/>
+<contactref element="U$1" pad="D6"/>
+<wire x1="78.975" y1="9.025" x2="77.96" y2="8.01" width="0.6096" layer="1"/>
+<wire x1="63.99" y1="2.58" x2="68.41" y2="7" width="0.6096" layer="16"/>
+<wire x1="68.41" y1="7" x2="77" y2="7" width="0.6096" layer="16"/>
+<wire x1="77" y1="7" x2="77.5" y2="7.5" width="0.6096" layer="16"/>
+<via x="77.5" y="7.5" extent="1-16" drill="0.6"/>
+<wire x1="77.5" y1="7.5" x2="78.975" y2="8.975" width="0.6096" layer="1"/>
+<wire x1="78.975" y1="8.975" x2="78.975" y2="9.025" width="0.6096" layer="1"/>
 </signal>
 <signal name="SH_CP">
 <contactref element="IC3" pad="11"/>
 <contactref element="IC2" pad="11"/>
-<contactref element="U$1" pad="D12"/>
-<wire x1="80.5" y1="2.58" x2="80.5" y2="10.05" width="0.6096" layer="16"/>
 <wire x1="80.5" y1="10.05" x2="86.1" y2="15.65" width="0.6096" layer="16"/>
 <wire x1="91.8" y1="15.305" x2="88.295" y2="15.305" width="0.6096" layer="1"/>
 <wire x1="88.295" y1="15.305" x2="88" y2="15.6" width="0.6096" layer="1"/>
@@ -3663,6 +3667,10 @@ design rules under a new name.</description>
 <wire x1="89.055" y1="15.305" x2="88.4" y2="15.305" width="0.6096" layer="16"/>
 <wire x1="88.4" y1="15.305" x2="88.105" y2="15.6" width="0.6096" layer="16"/>
 <wire x1="88.105" y1="15.6" x2="88" y2="15.6" width="0.6096" layer="16"/>
+<contactref element="U$1" pad="D5"/>
+<wire x1="61.45" y1="2.58" x2="61.45" y2="3.95" width="0.6096" layer="16"/>
+<wire x1="61.45" y1="3.95" x2="67.55" y2="10.05" width="0.6096" layer="16"/>
+<wire x1="67.55" y1="10.05" x2="80.5" y2="10.05" width="0.6096" layer="16"/>
 </signal>
 <signal name="ST_CP">
 <contactref element="IC3" pad="12"/>

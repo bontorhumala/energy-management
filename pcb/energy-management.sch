@@ -27712,9 +27712,9 @@ Note: The AM2302 is a wired version of the DHT-22 which typically requires less 
 <label x="142.24" y="251.46" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="*D11"/>
-<wire x1="345.44" y1="66.04" x2="347.98" y2="66.04" width="0.1524" layer="91"/>
-<label x="347.98" y="66.04" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="*D6"/>
+<wire x1="345.44" y1="78.74" x2="347.98" y2="78.74" width="0.1524" layer="91"/>
+<label x="347.98" y="78.74" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SH_CP" class="0">
@@ -27729,9 +27729,9 @@ Note: The AM2302 is a wired version of the DHT-22 which typically requires less 
 <label x="233.68" y="246.38" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="D12"/>
-<wire x1="345.44" y1="63.5" x2="347.98" y2="63.5" width="0.1524" layer="91"/>
-<label x="347.98" y="63.5" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="*D5"/>
+<wire x1="345.44" y1="81.28" x2="347.98" y2="81.28" width="0.1524" layer="91"/>
+<label x="347.98" y="81.28" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="ST_CP" class="0">
