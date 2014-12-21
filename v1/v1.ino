@@ -1,12 +1,9 @@
 #include "EmonLib.h"             // Include Emon Library
 #include <DHT.h>
-
 #include <Wire.h>
 #include <Time.h>
-
 #include <SPI.h>         
 #include <Ethernet.h>
-
 #include <Event.h>
 #include <Timer.h>
 #include <SoftwareSerial.h>
@@ -15,15 +12,22 @@
 
 #define pwrPin 2
 #define rstPin 3
+#define latchPin 8 // ST_CP
+#define clockPin 5 // SH_CP
+#define dataPin 6  // DS
 #define DHTPIN 7
 #define DHTTYPE DHT22
+
+//holders for infromation you're going to pass to shifting function
+byte dataOne;
+byte dataTwo;
+byte dataArrayOne[10];
+byte dataArrayTwo[10];
 
 EnergyMonitor emon;             // Create an instance
 
 Timer t;
 byte mac[] = { 0xDE, 0xAD, 0xEB, 0xEF, 0xEF, 0xDE };
-
-// ThingSpeak Settings
 const int updateThingSpeakInterval = 15 * 1000;      // Time interval in milliseconds to update ThingSpeak (number of seconds * 1000 = interval)
 
 // Variable Setup
@@ -119,6 +123,7 @@ void setupPin()
 {
   pinMode(rstPin, OUTPUT);  
   digitalWrite(rstPin, LOW);
+  pinMode(latchPin, OUTPUT);
 }
 
 void setupSimCom() {
@@ -714,5 +719,51 @@ uint8_t sendUsingGPRS (String tsData) {
   state = 7;
 //  Terminal.println("GPRS");  
   return 1;
+}
+
+void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
+  // This shifts 8 bits out MSB first, 
+  // on the rising edge of the clock,
+  // clock idles low
+
+  //internal function setup
+  int i=0;
+  int pinState;
+  pinMode(myClockPin, OUTPUT);
+  pinMode(myDataPin, OUTPUT);
+
+  //clear everything out just in case to
+  //prepare shift register for bit shifting
+  digitalWrite(myDataPin, 0);
+  digitalWrite(myClockPin, 0);
+
+  //for each bit in the byte myDataOut�
+  //NOTICE THAT WE ARE COUNTING DOWN in our for loop
+  //This means that %00000001 or "1" will go through such
+  //that it will be pin Q0 that lights. 
+  for (i=7; i>=0; i--)  {
+    digitalWrite(myClockPin, 0);
+
+    //if the value passed to myDataOut and a bitmask result 
+    // true then... so if we are at i=6 and our value is
+    // %11010100 it would the code compares it to %01000000 
+    // and proceeds to set pinState to 1.
+    if ( myDataOut & (1<<i) ) {
+      pinState= 1;
+    }
+    else {	
+      pinState= 0;
+    }
+
+    //Sets the pin to HIGH or LOW depending on pinState
+    digitalWrite(myDataPin, pinState);
+    //register shifts bits on upstroke of clock pin  
+    digitalWrite(myClockPin, 1);
+    //zero the data pin after shift to prevent bleed through
+    digitalWrite(myDataPin, 0);
+  }
+
+  //stop shifting
+  digitalWrite(myClockPin, 0);
 }
 
