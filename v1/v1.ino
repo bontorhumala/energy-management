@@ -2,12 +2,10 @@
 #include <DHT.h>
 
 #include <Wire.h>
-#include "RTClib.h"
 #include <Time.h>
 
 #include <SPI.h>         
 #include <Ethernet.h>
-#include <EthernetUdp.h>
 
 #include <Event.h>
 #include <Timer.h>
@@ -24,13 +22,6 @@ EnergyMonitor emon;             // Create an instance
 
 Timer t;
 byte mac[] = { 0xDE, 0xAD, 0xEB, 0xEF, 0xEF, 0xDE };
-unsigned int localPort = 8888;      // local port to listen for UDP packets 
-IPAddress timeServer(132, 163, 4, 101); // time-a.timefreq.bldrdoc.gov NTP server
-const int NTP_PACKET_SIZE= 48; // NTP time stamp is in the first 48 bytes of the message
-byte packetBuffer[ NTP_PACKET_SIZE]; //buffer to hold incoming and outgoing packets
-EthernetUDP Udp;
-unsigned long epoch;
-RTC_DS1307 rtc;
 
 // ThingSpeak Settings
 const int updateThingSpeakInterval = 15 * 1000;      // Time interval in milliseconds to update ThingSpeak (number of seconds * 1000 = interval)
@@ -206,43 +197,13 @@ void initialiseADC() {
 void initialiseEthernet() {
   
   client.stop();
-  // start Ethernet and UDP
   if (Ethernet.begin(mac) == 0) {
     Terminal.println("Failed using DHCP");
   }
   else { 
     Terminal.println("DHCP Ok"); 
-    Udp.begin(localPort);  
-    syncTime();
   }
   delay(1000);
-}
-
-time_t updateTime() {
-  DateTime now = rtc.now();  
-  time_t t = static_cast<time_t>(now.unixtime());
-  return t;
-}
-
-void initialiseRTC() {
-#ifdef AVR
-  Wire.begin();
-#else
-  Wire1.begin(); // Shield I2C pins connect to alt I2C bus on Arduino Due
-#endif
-  rtc.begin();
-  setSyncProvider( updateTime );   // the function to get the time from the RTC
-  if(timeStatus()!= timeSet) { }
-  else { }
-  if(epoch >0)
-  {
-    time_t t = static_cast<time_t>(epoch);
-    setTime(t);
-    rtc.isrunning();
-    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-    rtc.adjust( DateTime(year(), month(), day(), hour(), minute(), second() ));   // set the RTC and the system time to the received value
-  }
-  readTime();
 }
 
 void initialiseGPRS() {  
@@ -469,10 +430,7 @@ void setup()
   Serial.begin(57600);             // the GPRS serial baud rate.  
   Terminal.println("Hi SR");
   initialiseEthernet();
-//  Terminal.println("Finished Eth");
-  initialiseRTC();  
   initialiseGPRS();
-//  Terminal.println("Finished RTC  ");
   initialiseADC();
   setupPin();
   dht.begin();
@@ -484,10 +442,16 @@ void setup()
 
 // send data periodically - try using ethernet. if failed, send using GPRS
 void httpGetCommand(void* context) { 
-  uint8_t incomingByte = 0;  
-  readTime();
-
+  uint8_t incomingByte = 0;
   emon.calcVI(20,2000);
+
+  Terminal.println();  
+  Terminal.println(emon.Vrms);
+  Terminal.println(emon.Irms);  
+  Terminal.println(emon.realPower);
+  Terminal.println(emon.apparentPower);
+  Terminal.println(emon.powerFactor);
+  Terminal.println();
   
   String tsData = progbuffer;
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[21])));
@@ -516,7 +480,7 @@ void httpGetCommand(void* context) {
 
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[27])));
   tsData += progbuffer;
-  powerfactor = emon.powerFactor;;
+  powerfactor = emon.powerFactor;
   dtostrf(powerfactor,6,2,smeasure);
   tsData += deblank(smeasure);
 
@@ -546,19 +510,15 @@ void httpGetCommand(void* context) {
     sendUsingEthernet(tsData);
   }
   
-//  // Check if Arduino Ethernet needs to be restarted
   if (failedCounter > 1 ) {
-////    Terminal.println("initeth");
-//    Terminal.println("gprs");  
     sendUsingGPRS(tsData);  // if ethernet restarted 3 times, send using GPRS  
     resetCounter++;
-//    initialiseEthernet();
+    initialiseEthernet();
   }
   lastConnected = client.connected();
   client.stop();
   
   if ( resetCounter > 3 ) {
-//    Terminal.println("gprs");
     sendUsingGPRS(tsData);  // if ethernet restarted 3 times, send using GPRS  
   }
 }
@@ -568,74 +528,12 @@ void loop()
   t.update();
 }
 
-void syncTime(){
-  sendNTPpacket(timeServer); // send an NTP packet to a time server
-  // wait to see if a reply is available
-  delay(1000);  
-  if ( Udp.parsePacket() ) {  
-    // We've received a packet, read the data from it
-    Udp.read(packetBuffer,NTP_PACKET_SIZE);  // read the packet into the buffer
-    unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
-    unsigned long lowWord = word(packetBuffer[42], packetBuffer[43]);  
-    unsigned long secsSince1900 = highWord << 16 | lowWord;  
-    const unsigned long seventyYears = 2208988800UL;     
-    epoch = secsSince1900 - seventyYears;
-  }
-}
-
 void clearBufferArray()              // function to clear buffer array
 {
   for (uint8_t i=0; i<count;i++)
   { 
     buffer[i]=NULL;
   }                  // clear all index of array with command NULL
-}
-
-// send an NTP request to the time server at the given address 
-unsigned long sendNTPpacket(IPAddress& address)
-{
-  // set all bytes in the buffer to 0
-  memset(packetBuffer, 0, NTP_PACKET_SIZE); 
-  // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 0;     // Stratum, or type of clock
-  packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
-  // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49; 
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
-
-  // all NTP fields have been given values, now
-  // you can send a packet requesting a timestamp: 		   
-  Udp.beginPacket(address, 123); //NTP requests are to port 123
-  Udp.write(packetBuffer,NTP_PACKET_SIZE);
-  Udp.endPacket(); 
-}
-
-void readTime(){
-  // digital clock display of the time
-  Terminal.print(hour());
-  printDigits(minute());
-  printDigits(second());
-  Terminal.println(); 
-//  Terminal.print(" ");
-//  Terminal.print(day());
-//  Terminal.print(" ");
-//  Terminal.print(month());
-//  Terminal.print(" ");
-//  Terminal.print(year()); 
-//  Terminal.println(); 
-}
-
-void printDigits(int digits){
-  // utility function for digital clock display: prints preceding colon and leading 0
-  Terminal.print(":");
-  if(digits < 10)
-    Terminal.print('0');
-  Terminal.print(digits);
 }
 
 uint8_t sendUsingEthernet(String tsData)
