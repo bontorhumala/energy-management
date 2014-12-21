@@ -1,14 +1,14 @@
-<ion-view title="NEW GEOFENCE">
-    <ion-nav-bar animation="nav-title-slide-android" style="background-color: #f8f8f8;font-family: 'Roboto', sans-serif;">
-        <button class="button button-icon" style="color:#66cc33" ui-sref="geofences">
+<ion-view title="Edit Geofence">
+    <ion-nav-bar animation="nav-title-slide-android" style="background-color:forestgreen;font-family: 'Roboto', sans-serif;">
+        <button class="button button-icon" style="color:#white" ui-sref="geofences">
             <i class="ion-chevron-left"></i>
         </button>
         <div class="buttons pull-right">
-            <button style="color:#66cc33" class="button button-icon icon ion-checkmark" ng-click="save()"></button>
+            <button style="color:white" class="button button-icon icon ion-checkmark" ng-click="save()"></button>
         </div>
     </ion-nav-bar>
-    <ion-content scroll="false" style="background-color:#ecfaec;font-family: 'Roboto', sans-serif;">
-        <label class="item item-input"  style="background-color: #ecfaec;">
+    <ion-content scroll="false" style="background-color: #f8f8f8;font-family: 'Roboto', sans-serif;">
+        <label class="item item-input"  style="background-color: #f8f8f8;">
             <input type="text" placeholder="Enter notification text" ng-model="geofence.notification.text" hide-keyboard-on-enter>  
         </label>
         <div class="button-bar">

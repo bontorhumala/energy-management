@@ -912,7 +912,9 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/environmental.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/log.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/style.css \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/app.css \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/fonts \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/app.css.map \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/fonts/Roboto \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/fonts/Roboto_Slab \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/css/fonts/Roboto/Roboto-Medium.ttf \

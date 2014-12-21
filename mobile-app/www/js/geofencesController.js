@@ -65,8 +65,8 @@ app.controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $
         // Show the action sheet
         $ionicActionSheet.show({
             buttons: [
-              { text: 'Save changes' },
-              { text: 'Cancel' }              
+              { text: 'Save and exit' },
+              { text: 'Cancel and exit' }              
             ],
             destructiveText: 'Delete all geofences',
             destructiveButtonClicked: function () {

@@ -6,11 +6,11 @@ svg {
 }
 
 .x.axis line {
-  stroke: #fff;
+  stroke: slategray;
 }
 
 .y.axis line {
-  stroke: #fff;
+  stroke: slategray;
 }
 
 .line {
@@ -97,14 +97,13 @@ svg {
 .background, .background .pane{
 }
 
-h1 { font-family: 'Syncopate', sans-serif; }
+h1 { font-family: 'Roboto', sans-serif !important; color: white !important; }
 .dashboard-item { font-family: 'Roboto', sans-serif; }
 .dashboard-title { font-family: 'Syncopate', sans-serif; }
 
 .header-bottom-bar {
   top: 0;
   border-top-width: 0;
-  box-shadow: 0px 3px 0px forestgreen;}
 }
 
 .devices-list {
@@ -113,7 +112,7 @@ h1 { font-family: 'Syncopate', sans-serif; }
 }
 
 .form-settings {
-  background-color: #ecfaec;
+  background-color: white;
 }
 
 #point::-webkit-input-placeholder {
