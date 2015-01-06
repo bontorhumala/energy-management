@@ -1,0 +1,38 @@
+<ion-view title="Dashboard" ng-init="init();">
+  <ion-content style="background-color:white">
+    <div class="row" style="width: 100%">
+      <div class="col" style="padding-top:0px">
+        <div class="power-medium">{{widgetval.power}}</div>
+        <div class="power-medium">kWh</div><br>
+        <div class="description">consumed</div>
+      </div>
+      <div class="col" style="text-align:left">
+        <div class="col" style="text-align:center">
+          <div class="row" style="width: 100%">
+            <div class="col" style="text-align:center">
+              <div class="circleBase medium"><div class="element">{{numberOff}}</div></div> <!-- devices on -->
+              <div class="description" style="text-align:center">off</div>
+            </div>
+            <div class="col" style="text-align:center">          
+              <div class="circleBase medium shadow"><div class="element">{{numberOn}}</div></div> <!-- devices off -->
+              <div class="description" style="text-align:center">on</div>
+            </div>
+          </div>
+        </div>
+        <div class="col" style="text-align:center; margin-bottom:0px">
+          <label class="toggle toggle-balanced">
+             <input type="checkbox" ng-model="allStatus" ng-change="sendAllCommand(allStatus)">
+             <div class="track">
+               <div class="handle"></div>
+             </div>
+          </label><br>
+          <div class="description" style="text-align:center">all devices</div>
+        </div>
+      </div>    
+    </div>
+    <div class="row" style="width: 100%">
+      <angularchart dataset="powerData" schema="schema" options="options">
+      </angularchart>
+    </div>
+  </ion-content>
+</ion-view>

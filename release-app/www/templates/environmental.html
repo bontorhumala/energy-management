@@ -1,0 +1,16 @@
+<ion-view title="Environmental">
+  <ion-content style="background-color:white">
+    <div class="list">
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        Temperature
+      </div>
+      <angularchart dataset="temperatureData" schema="schemaTemp" options="optionsTemp">
+      </angularchart>
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        Humidity
+      </div>
+      <angularchart dataset="humidityData" schema="schemaHum" options="optionsHum">
+      </angularchart>      
+    </div>
+  </ion-content>
+</ion-view>

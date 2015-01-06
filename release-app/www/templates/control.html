@@ -1,0 +1,20 @@
+<ion-view title="Control">
+  <ion-content style="background-color:white">    
+    <div class="list" ng-init="updateState()">
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        List of Devices
+      </div>  
+      <div class="item devices devices-list" collection-repeat="channel in channels" collection-item-width="'100%'"
+    collection-item-height="'13%'" style="background-color: rgba(0,0,0,0.0); color: grey; border-color:rgba(0,0,0,0.0);width: 100%;">
+        <h2 style="color:slategray">{{ channel.point }}</h2>
+        <p>{{ channel.desc }}</p>                
+        <label class="toggle toggle-balanced" style="position: absolute; right: 20px; top:10px">
+          <input type="checkbox" ng-model="channel.status" ng-change="sendCommand()">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

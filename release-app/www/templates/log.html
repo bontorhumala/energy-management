@@ -1,0 +1,21 @@
+<ion-view title="Log" ng-init="getGraph()">
+  <ion-content style="background-color:white">
+    <div class="list">
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        Power
+      </div>
+      <angularchart dataset="powerData" schema="schemaPower" options="optionsPower">
+      </angularchart>      
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        Voltage
+      </div>  
+      <angularchart dataset="voltageData" schema="schemaVoltage" options="optionsVoltage">
+      </angularchart>
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        Current
+      </div> 
+      <angularchart dataset="currentData" schema="schemaCurrent" options="optionsCurrent">
+      </angularchart>
+    </div>
+  </ion-content>
+</ion-view>

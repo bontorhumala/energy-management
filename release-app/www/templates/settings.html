@@ -1,0 +1,38 @@
+<ion-view title="Settings">
+  <ion-content style="background-color:white">    
+    <div class="list">
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        User Settings
+      </div>
+      <label class="item item-input form-settings">
+        <input type="text" placeholder="Username">
+      </label>
+      <label class="item item-input form-settings">
+        <input type="text" placeholder="Password">
+      </label>
+      <label class="item item-input form-settings">
+        <input type="text" placeholder="Confirm password">
+      </label>
+      <button class="button button-block button-balanced" ui-sref="geofences">
+        Set geofences
+      </button>
+
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        Device Settings
+      </div>
+      <div class="list">
+        <div ng-repeat="channel in channels">
+          <label class="item item-input form-settings">
+            <input type="text" placeholder={{channel.point}}>
+          </label>
+          <label class="item item-input form-settings">
+            <input id="desc" type="text" placeholder={{channel.desc}}>
+          </label>
+        </div>
+      </div>
+      <button class="button button-block button-balanced">
+        Confirm changes
+      </button>
+    </div>
+  </ion-content>
+</ion-view>
