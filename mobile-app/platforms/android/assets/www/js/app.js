@@ -174,14 +174,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
       controller: "GeofenceCtrl",
       resolve: {
         geofence: function ($stateParams, geofenceService, $q) {
-          var def = $q.defer();
-          var gf = geofenceService.findById($stateParams.geofenceId);
-          if (gf) {
-            def.resolve(gf);
-          } else {
-            def.reject();
-          }
-          return def.promise;
+            var geofence = geofenceService.findById($stateParams.geofenceId);
+            if (geofence) {
+                return $q.when(geofence);
+            }
+            return $q.reject('Cannot find geofence with id: ' + $stateParams.geofenceId);
         }
       }
     })
@@ -198,13 +195,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         if ($window.cordova && $window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
+        if(window.navigator && window.navigator.splashscreen) {
+            window.navigator.splashscreen.hide();
+        } 
         if ($window.StatusBar) {
             StatusBar.styleDefault();
         }
         if ($window.geofence) {
             $window.geofence.initialize();
 
-            $window.geofence.recieveTransition = function (geofences) {
+            $window.geofence.receiveTransition = function (geofences) {
                 $log.log(geofences);
                 if (geofences) {
                     $rootScope.$apply(function () {
@@ -217,7 +217,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         }
         if ($window.plugins && $window.plugins.webintent) {
             $log.log('WebIntent plugin found');
-            $window.plugins.webintent.getExtra("geofence.notification.data",
+            $window.plugins.webintent.getExtra('geofence.notification.data',
                 function (geofenceJson) {
                     if (geofenceJson) {
                         var geofence = angular.fromJson(geofenceJson);
@@ -235,12 +235,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         }
     });
 
-    //ionic loading fix - sometimes when changing state loading is not hiding
-    $rootScope.$on('$stateChangeStart',
-        function (event, toState, toParams, fromState, fromParams) {
-            $ionicLoading.hide();
-            $document[0].body.classList.remove('loading-active');
-        });
     $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
         $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
         $state.go('geofences');

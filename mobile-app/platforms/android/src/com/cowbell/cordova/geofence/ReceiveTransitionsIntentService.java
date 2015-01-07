@@ -37,12 +37,15 @@ public class ReceiveTransitionsIntentService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent intent) {
+
         notifier = new GeoNotificationNotifier(
                 (NotificationManager) this
                         .getSystemService(Context.NOTIFICATION_SERVICE),
                 this);
 
         Logger logger = Logger.getLogger();
+
+        logger.log(Log.DEBUG, "onHandleIntent called bro");
         // First check for errors
         if (LocationClient.hasError(intent)) {
             // Get the error code with a static method
@@ -63,7 +66,13 @@ public class ReceiveTransitionsIntentService extends IntentService {
             int transitionType = LocationClient.getGeofenceTransition(intent);
             if ((transitionType == Geofence.GEOFENCE_TRANSITION_ENTER)
                     || (transitionType == Geofence.GEOFENCE_TRANSITION_EXIT)) {
-                logger.log(Log.DEBUG, "Geofence transition detected");
+                logger.log(Log.DEBUG, "Geofence transition detected broh");
+                if (transitionType == Geofence.GEOFENCE_TRANSITION_ENTER) {
+                  logger.log(Log.DEBUG, "Entering transition detected broh");
+                }
+                else {
+                  logger.log(Log.DEBUG, "Exiting transition detected broh");
+                }
                 List<Geofence> triggerList = LocationClient
                         .getTriggeringGeofences(intent);
                 List<GeoNotification> geoNotifications = new ArrayList<GeoNotification>();

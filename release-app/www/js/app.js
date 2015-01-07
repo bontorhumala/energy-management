@@ -198,12 +198,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         if ($window.cordova && $window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
+        if(window.navigator && window.navigator.splashscreen) {
+            window.navigator.splashscreen.hide();
+        } 
         if ($window.StatusBar) {
             StatusBar.styleDefault();
         }
         if ($window.geofence) {
             $window.geofence.initialize();
-
             $window.geofence.recieveTransition = function (geofences) {
                 $log.log(geofences);
                 if (geofences) {

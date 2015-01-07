@@ -116,19 +116,19 @@ h1 { font-family: 'Roboto', sans-serif !important; color: white !important; }
 }
 
 #point::-webkit-input-placeholder {
-   font-weight: bold;
+   
 }
 
 #point:-moz-placeholder { /* Firefox 18- */
-   font-weight: bold;
+
 }
 
 #point::-moz-placeholder {  /* Firefox 19+ */
-   font-weight: bold;
+
 }
 
 #point:-ms-input-placeholder {  
-   font-weight: bold;
+
 }
 
 #desc::-webkit-input-placeholder {

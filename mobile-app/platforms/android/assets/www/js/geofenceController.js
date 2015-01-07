@@ -1,10 +1,7 @@
 var app = angular.module('starter')
 
-app.controller('GeofenceCtrl', function ($scope, $log, $state, geofence, geofenceService) {
+app.controller('GeofenceCtrl', function ($scope, $state, geofence, geofenceService, $log) {
     $scope.geofence = geofence;
-    $log.log("entered geofence");
-
-    console.log($scope.geofence);
 
     $scope.center = {
         lat: geofence.latitude,
@@ -22,7 +19,7 @@ app.controller('GeofenceCtrl', function ($scope, $log, $state, geofence, geofenc
     };
     $scope.paths = {
         circle: {
-            type: "circle",
+            type: 'circle',
             radius: geofence.radius,
             latlngs: $scope.markers.marker,
             clickable: false
@@ -31,15 +28,17 @@ app.controller('GeofenceCtrl', function ($scope, $log, $state, geofence, geofenc
 
     $scope.isWhenGettingCloser = function () {
         return $scope.geofence.transitionType === 1;
-    }
+    };
 
     $scope.chooseWhenIgetCloser = function () {
+        $log.log("transitionType 1");
         $scope.geofence.transitionType = 1;
-    }
+    };
 
     $scope.chooseWhenIamLeaving = function () {
-        $scope.geofence.transitionType = 0;
-    }
+        $log.log("transitionType 2");
+        $scope.geofence.transitionType = 2;
+    };
 
     $scope.save = function () {
         $scope.geofence.radius = parseInt($scope.paths.circle.radius);
@@ -47,5 +46,5 @@ app.controller('GeofenceCtrl', function ($scope, $log, $state, geofence, geofenc
         $scope.geofence.longitude = $scope.markers.marker.lng;
         geofenceService.addOrUpdate($scope.geofence);
         $state.go('geofences');
-    }
-})
+    };
+});

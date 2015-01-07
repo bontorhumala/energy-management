@@ -6,6 +6,7 @@ app.controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $
     });
 
     $scope.geofences = [];
+
     geofenceService.getAll().then(function (geofences) {
         $scope.geofences = geofences;
         $ionicLoading.hide();
@@ -20,15 +21,12 @@ app.controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $
             .then(function (position) {
                 $log.log('Current location found');
                 $ionicLoading.hide();
-                //workaround ionic loading race condition
-                $timeout(function () {
-                    $ionicLoading.hide();
-                }, 100);
+
                 geofenceService.createdGeofenceDraft = {
                     id: UUIDjs.create().toString(),
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
-                    radius: 1000,
+                    radius: 500,
                     transitionType: 1,
                     notification: {
                         id: geofenceService.getNextNotificationId(),
@@ -49,17 +47,17 @@ app.controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $
                     duration: 1500
                 });
             });
-    }
+    };
 
     $scope.editGeofence = function (geofence) {
         $state.go('geofence', {
             geofenceId: geofence.id
         });
-    }
+    };
 
     $scope.removeGeofence = function (geofence) {
         geofenceService.remove(geofence);
-    }
+    };
 
     $scope.more = function () {
         // Show the action sheet

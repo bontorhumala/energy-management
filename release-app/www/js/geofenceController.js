@@ -2,14 +2,11 @@ var app = angular.module('starter')
 
 app.controller('GeofenceCtrl', function ($scope, $log, $state, geofence, geofenceService) {
     $scope.geofence = geofence;
-    $log.log("entered geofence");
-
-    console.log($scope.geofence);
 
     $scope.center = {
         lat: geofence.latitude,
         lng: geofence.longitude,
-        zoom: 12
+        zoom: 13
     };
     $scope.markers = {
         marker: {
@@ -25,7 +22,8 @@ app.controller('GeofenceCtrl', function ($scope, $log, $state, geofence, geofenc
             type: "circle",
             radius: geofence.radius,
             latlngs: $scope.markers.marker,
-            clickable: false
+            clickable: false,
+            weight: 2
         }
     };
 
