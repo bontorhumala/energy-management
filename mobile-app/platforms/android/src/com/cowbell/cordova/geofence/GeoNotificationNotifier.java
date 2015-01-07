@@ -9,6 +9,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import com.google.gson.Gson;
+import android.media.RingtoneManager;
+import android.graphics.Color;
+import android.net.Uri;
 
 public class GeoNotificationNotifier {
     private NotificationManager notificationManager;
@@ -25,9 +28,13 @@ public class GeoNotificationNotifier {
     }
 
     public void notify(Notification notification, boolean isEntered) {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.drawable.ic_menu_mylocation)
                 .setVibrate(new long[] { 1000, 1000, 1000 })
+                .setLights(Color.WHITE, 500, 300)
+                .setSound(alarmSound)       
                 .setAutoCancel(true).setContentTitle(notification.title)
                 .setContentText(notification.text);
 
@@ -57,7 +64,7 @@ public class GeoNotificationNotifier {
                     0, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.setContentIntent(resultPendingIntent);
         }
-        beepHelper.startTone("beep_beep_beep");
+        // beepHelper.startTone("beep_beep_beep");
         notificationManager.notify(notification.id, mBuilder.build());
         logger.log(Log.DEBUG, "GeoNotification title: " + notification.title
                 + " text: " + notification.text);
