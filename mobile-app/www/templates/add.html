@@ -1,0 +1,33 @@
+<ion-view title="Add Device">
+  <ion-content style="background-color:white">    
+    <div class="list">
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        Device settings
+      </div>
+      <label class="item">Your device display properties</label>
+      <label class="item item-input form-settings">
+        <span class="input-label">Name</span>
+        <input type="text" ng-model="name">
+      </label>
+      <label class="item item-input form-settings">
+        <span class="input-label">Location description</span>     
+        <input type="text" ng-model="location">
+      </label>
+      <div class="item item-divider dashboard-item" style="background-color: #f8f8f8; color:slategray"> 
+        WiFi settings
+      </div>
+      <label class="item">Enter preferred access point properties</label>
+      <label class="item item-input form-settings">
+        <span class="input-label">AP name</span>
+        <input type="text" ng-model="apname">
+      </label>
+      <label class="item item-input form-settings">
+        <span class="input-label">Password</span>     
+        <input type="text" ng-model="password">
+      </label>
+      <button class="button button-block button-balanced" ng-click="submitWiFi()">
+        Add device
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

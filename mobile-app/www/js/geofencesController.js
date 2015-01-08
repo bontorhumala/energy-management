@@ -30,7 +30,7 @@ app.controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $
                     transitionType: 1,
                     notification: {
                         id: geofenceService.getNextNotificationId(),
-                        title: 'Ionic geofence example',
+                        title: 'Emos notifications',
                         text: '',
                         openAppOnClick: true
                     }

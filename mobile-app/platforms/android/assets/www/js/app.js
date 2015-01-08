@@ -163,6 +163,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
         }
       }
     })
+    .state('add', {
+      url: '/add',
+      templateUrl: 'templates/add.html',
+      controller: 'AddCtrl'      
+    })    
     .state('geofences', {
       url: "/geofences",      
       templateUrl: "templates/geofences.html",

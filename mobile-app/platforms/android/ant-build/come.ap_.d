@@ -885,8 +885,11 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/lib/angularjs-toaster/toaster.js \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/lib/angularjs-toaster/README.md \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/lib/angularjs-toaster/toaster.css \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.tlantic.plugins.socket \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.cowbell.cordova.geofence \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.vladstirbu.cordova.promise \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.tlantic.plugins.socket/www \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.tlantic.plugins.socket/www/socket.js \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.cowbell.cordova.geofence/www \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.cowbell.cordova.geofence/www/geofence.js \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/plugins/com.vladstirbu.cordova.promise/www \
@@ -897,6 +900,7 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/settings.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/geofences.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/menu.html \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/add.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/geofence.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/environmental.html \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/templates/log.html \
@@ -935,5 +939,6 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/js/logController.js \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/js/geoServices.js \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/js/geofenceController.js \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/js/addController.js \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/assets/www/js/directives/d3Streamgraph.js \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/AndroidManifest.xml \

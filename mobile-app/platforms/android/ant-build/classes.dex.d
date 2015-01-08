@@ -22,6 +22,9 @@
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/IGoogleServiceCommandListener.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/BeepHelper.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/cowbell/cordova/geofence/GeoNotificationManager$1.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/tlantic/plugins/socket/Connection.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/tlantic/plugins/socket/SocketPlugin$1.class \
+/home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/tlantic/plugins/socket/SocketPlugin.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionicframework/come366613/R$string.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionicframework/come366613/R.class \
 /home/bontor/m2m-workspace/Project/energy-management/mobile-app/platforms/android/ant-build/classes/com/ionicframework/come366613/come.class \
