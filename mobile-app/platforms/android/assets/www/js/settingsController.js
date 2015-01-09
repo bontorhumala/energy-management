@@ -1,6 +1,6 @@
 var app = angular.module('starter')
 
-  app.controller('SettingsCtrl', function($scope, $state, $firebase, $q, device) {
+  app.controller('SettingsCtrl', function($scope, $state, $firebase, $q, device, $log, $ionicLoading) {
 
     $scope.channels = [];
     $scope.devices = [];   
@@ -50,5 +50,30 @@ var app = angular.module('starter')
       });
       // console.log($scope.devices);
     });
+
+    $scope.submitSettings = function () {
+      console.log($scope.devices);
+      console.log($scope.channels);
+      var numPanel = 0;
+      var channelBase = 0;
+      for (var i=0; i<$scope.FireSites.length; i++) {
+        channelBase = numPanel * 8;
+        if (Array.isArray($scope.FireSites[i].desc)) {
+          for (var j=0; j<8; j++) {
+            $scope.FireSites[i].point[j] = $scope.channels[channelBase+j].point;
+            $scope.FireSites[i].desc[j] = $scope.channels[channelBase+j].desc;
+            $scope.FireSites.$save(i);
+          }
+          numPanel++;
+        }
+        else {
+          $scope.FireSites[i].point = $scope.channels[channelBase+i-1].point;
+          $scope.FireSites[i].desc = $scope.channels[channelBase+i-1].desc;
+          $scope.FireSites.$save(i);
+        }
+      }
+      $log.log("settings submitted");
+      $ionicLoading.show({ template: 'Changes confirmed!', noBackdrop: true, duration: 2000 });
+    }
 
   })

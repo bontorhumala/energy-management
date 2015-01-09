@@ -5,10 +5,10 @@
         User Settings
       </div>
       <label class="item item-input form-settings">
-        <input type="text" placeholder="Username">
+        <input type="text" placeholder="Username" ng-model="username">
       </label>
       <label class="item item-input form-settings">
-        <input type="text" placeholder="Password">
+        <input type="text" placeholder="Password" ng-model="password">
       </label>
       <label class="item item-input form-settings">
         <input type="text" placeholder="Confirm password">
@@ -23,16 +23,16 @@
       <div class="list">
         <div ng-repeat="channel in channels">
           <label class="item item-input form-settings">
-            <input type="text" placeholder={{channel.point}}>
+            <input type="text" ng-model="channel.point">
           </label>
           <label class="item item-input form-settings">
-            <input id="desc" type="text" placeholder={{channel.desc}}>
+            <input id="desc" type="text" ng-model="channel.desc">
           </label>
         </div>
       </div>
       <div class="button-bar">
         <a class="button button-stable" ui-sref="add">Add device</a>
-        <a class="button button-balanced">Confirm changes</a>
+        <a class="button button-balanced" ng-click="submitSettings()">Confirm changes</a>
       </div>
     </div>
   </ion-content>

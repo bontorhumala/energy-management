@@ -11,8 +11,8 @@ var app = angular.module('starter')
       $log.log('Established connection with ' + k);
       key = k;
       $window.tlantic.plugins.socket.isConnected( key, stub, stub );
-      $window.tlantic.plugins.socket.send( stub, stub, key, 'apname' );
-      $window.tlantic.plugins.socket.send( stub, stub, key, 'password' );      
+      $window.tlantic.plugins.socket.send( stub, stub, key, '<apname>' );
+      $window.tlantic.plugins.socket.send( stub, stub, key, '(password)' );      
     }
 
     function stub(d) {
@@ -21,10 +21,10 @@ var app = angular.module('starter')
 
     $scope.submitWiFi = function () {
 
-      $window.tlantic.plugins.socket.connect( onConnect, stub, '192.168.4.1', 8888 );
-
+      $window.tlantic.plugins.socket.connect( onConnect, stub, '192.168.128.178', 8888 );
       // $window.tlantic.plugins.socket.disconnect(stub, stub, key);        
       // $state.go('app.settings');
+      $ionicLoading.show({ template: 'Devices added!', noBackdrop: true, duration: 2000 });
     }
 
   })
