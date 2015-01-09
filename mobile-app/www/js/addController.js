@@ -11,8 +11,8 @@ var app = angular.module('starter')
       $log.log('Established connection with ' + k);
       key = k;
       $window.tlantic.plugins.socket.isConnected( key, stub, stub );
-      $window.tlantic.plugins.socket.send( stub, stub, key, '<apname>' );
-      $window.tlantic.plugins.socket.send( stub, stub, key, '(password)' );      
+      $window.tlantic.plugins.socket.send( stub, stub, key, '<' + $scope.apname + '>' );
+      $window.tlantic.plugins.socket.send( stub, stub, key, '<' + $scope.password + '>' );      
     }
 
     function stub(d) {
