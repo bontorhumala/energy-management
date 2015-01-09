@@ -439,7 +439,7 @@ void setup()
   initialiseADC();
   setupPin();
   dht.begin();
-  emon.voltage(1, 234.26, 1.7);  // Voltage: input pin, calibration, phase_shift
+  emon.voltage(1, 451.813, 2.0);  // Voltage: input pin, calibration, phase_shift
   emon.current(0, 111.1);       // Current: input pin, calibration.  
   t.every(intervalGetCommand, httpGetCommand, 0);
 //  Terminal.println("");
