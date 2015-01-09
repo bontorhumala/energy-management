@@ -21,7 +21,7 @@ var app = angular.module('starter')
 
     $scope.submitWiFi = function () {
 
-      $window.tlantic.plugins.socket.connect( onConnect, stub, '192.168.128.178', 8888 );
+      $window.tlantic.plugins.socket.connect( onConnect, stub, '192.168.2.89', 8888 );
       // $window.tlantic.plugins.socket.disconnect(stub, stub, key);        
       // $state.go('app.settings');
       $ionicLoading.show({ template: 'Devices added!', noBackdrop: true, duration: 2000 });
