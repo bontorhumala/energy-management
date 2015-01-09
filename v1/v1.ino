@@ -40,7 +40,7 @@ uint8_t resetCounter = 0;
 EthernetClient client;
 
 long unsigned int intervalGetCommand = 15000;
-SoftwareSerial Terminal(8, 4);
+SoftwareSerial Terminal(4, 9);
 char buffer[64]; // buffer array for data recieve over serial port
 uint8_t count=0; // counter for buffer array 
 float power, voltage, current, apower, powerfactor, temp, hum;
@@ -79,7 +79,7 @@ prog_char field1[] PROGMEM = "&field1=";
 prog_char field2[] PROGMEM = "&field2=";
 prog_char field3[] PROGMEM = "&field3=";
 prog_char field4[] PROGMEM = "&field4=";
-prog_char apikey[] PROGMEM = "XS3MXFTS0MHGV8XE"; // Merauke
+prog_char apikey[] PROGMEM = "J92QL2G3I6YEW1FB"; // Enermon 1
 prog_char tsaddress[] PROGMEM = "api.thingspeak.com";
 prog_char field5[] PROGMEM = "&field5=";
 prog_char field6[] PROGMEM = "&field6=";
