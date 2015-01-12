@@ -19,15 +19,16 @@
       <label class="item">Enter preferred access point properties</label>
       <label class="item item-input form-settings">
         <span class="input-label">AP name</span>
-        <input type="text" ng-model="apname">
+        <input type="text" ng-model="accessPoint.apname">
       </label>
       <label class="item item-input form-settings">
         <span class="input-label">Password</span>     
-        <input type="text" ng-model="password">
+        <input type="text" ng-model="accessPoint.password">
       </label>
-      <button class="button button-block button-balanced" ng-click="submitWiFi()">
-        Add device
-      </button>
+      <div class="button-bar">
+        <a class="button button-stable" ui-sref="app.settings">Cancel</a>
+        <a class="button button-balanced" ng-click="submitWiFi()">Add device</a>
+      </div>      
     </div>
   </ion-content>
 </ion-view>

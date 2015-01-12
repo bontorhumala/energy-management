@@ -86,7 +86,7 @@ var app = angular.module('starter.controllers', [])
       rows: [{
         key: 'field1',
         type: 'bar',
-        color:'slategray'
+        color:'goldenrod'
       }],
       xAxis: {
         key: 'created_at',
