@@ -29,6 +29,7 @@ long lastConnectionTime = 0;
 boolean lastConnected = false;
 uint8_t failedCounter = 0;
 uint8_t resetCounter = 0;
+int talkbackId = 936;
 
 // Initialize Arduino Ethernet Client
 EthernetClient client;
@@ -45,49 +46,57 @@ double Voltage;
 double Vcc;
 uint8_t state=0; // state of SimCom sequence
 
+char b;
+char c;
+char it;
+char respState = 0;
+char command[8];
+
 // holders for infromation you're going to pass to shifting function
 byte shiftData[] = {0x00, 0x00};
 
 DHT dht(DHTPIN, DHTTYPE);
 
 #include <avr/pgmspace.h>
-prog_char cgatt[] PROGMEM = "AT+CGATT=1";
-prog_char cstt[] PROGMEM = "AT+CSTT=\"3gprs\",\"3gprs\",\"3gprs\"";
-prog_char ciicr[] PROGMEM = "AT+CIICR";
-prog_char cifsr[] PROGMEM = "AT+CIFSR";
-prog_char cdnscfg[] PROGMEM = "AT+CDNSCFG=\"8.8.8.8\",\"8.8.4.4\"";
+prog_char cgatt[] PROGMEM = "AT+CGATT=1";                                                // 0
+prog_char cstt[] PROGMEM = "AT+CSTT=\"3gprs\",\"3gprs\",\"3gprs\"";                      // 1
+prog_char ciicr[] PROGMEM = "AT+CIICR";                                                  // 2
+prog_char cifsr[] PROGMEM = "AT+CIFSR";                                                  // 3
+prog_char cdnscfg[] PROGMEM = "AT+CDNSCFG=\"8.8.8.8\",\"8.8.4.4\"";                      // 4
 prog_char sapbrcon[] PROGMEM = "AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"";
 prog_char sapbrapn[] PROGMEM = "AT+SAPBR=3,1,\"APN\",\"3gprs\"";   
 prog_char sapbr[] PROGMEM = "AT+SAPBR=1,1";
 prog_char httpinit[] PROGMEM = "AT+HTTPINIT";
-prog_char httppara[] PROGMEM = "AT+HTTPPARA=\"URL\",\"api.thingspeak.com/update\"";
-prog_char httpdata[] PROGMEM = "AT+HTTPDATA=";
+prog_char httppara[] PROGMEM = "AT+HTTPPARA=\"URL\",\"api.thingspeak.com/update\"";      // 9
+prog_char httpdata[] PROGMEM = "AT+HTTPDATA=";                                           // 10
 prog_char httpaction[] PROGMEM = "AT+HTTPACTION=1";
 prog_char tspost[] PROGMEM = "POST /update HTTP/1.1\n";
 prog_char tshost[] PROGMEM = "Host: api.thingspeak.com\n";
-prog_char tsconn[] PROGMEM = "Connection: close\n";
-prog_char tscont[] PROGMEM = "Content-Type: application/x-www-form-urlencoded\n";
+prog_char tsconn[] PROGMEM = "Connection: close\n";                                      // 14
+prog_char tscont[] PROGMEM = "Content-Type: application/x-www-form-urlencoded\n";        // 15
 prog_char tscontlen[] PROGMEM = "Content-Length: ";
 prog_char httpapi[] PROGMEM = "AT+HTTPPARA=\"X-THINGSPEAKAPIKEY\",";
 prog_char httpcid[] PROGMEM = "AT+HTTPPARA=\"CID\",1";
-prog_char httpterm[] PROGMEM = "AT+HTTPTERM";
-prog_char key[] PROGMEM = "key=";
+prog_char httpterm[] PROGMEM = "AT+HTTPTERM";                                            // 19
+prog_char key[] PROGMEM = "key=";                                                        // 20
 prog_char field1[] PROGMEM = "&field1=";
 prog_char field2[] PROGMEM = "&field2=";
 prog_char field3[] PROGMEM = "&field3=";
-prog_char field4[] PROGMEM = "&field4=";
-prog_char apikey[] PROGMEM = "J92QL2G3I6YEW1FB"; // Enermon 1
+prog_char field4[] PROGMEM = "&field4=";                                                 // 24
+prog_char apikey[] PROGMEM = "J92QL2G3I6YEW1FB"; // Enermon 1                            // 25
 prog_char tsaddress[] PROGMEM = "api.thingspeak.com";
 prog_char field5[] PROGMEM = "&field5=";
 prog_char field6[] PROGMEM = "&field6=";
-prog_char field7[] PROGMEM = "&field7=";
-prog_char field8[] PROGMEM = "&field8=";
-prog_char httptalkback1[] PROGMEM = "AT+HTTPPARA=\"URL\",\"api.thingspeak.com/talkbacks/\"";
+prog_char field7[] PROGMEM = "&field7=";                                                 // 29
+prog_char field8[] PROGMEM = "&field8=";                                                 // 30
+prog_char httptalkback1[] PROGMEM = "GET /talkbacks/";
 prog_char httptalkback2[] PROGMEM = "/commands/last?api_key=";
+prog_char talkbackapi[] PROGMEM = "CMHR0FOE7J1DU7VP";
+prog_char httptalkback3[] PROGMEM = " HTTP/1.0";
 
 PROGMEM const char *string_table[] = 
-{ cgatt, cstt, ciicr, cifsr, cdnscfg, sapbrcon, sapbrapn, sapbr, httpinit, httppara, httpdata, httpaction, tspost, tshost, tsconn, 
-  tscont, tscontlen, httpapi, httpcid, httpterm, key, field1, field2, field3, field4, apikey, tsaddress, field5, field6, field7, field8 };
+{ cgatt, cstt, ciicr, cifsr, cdnscfg, sapbrcon, sapbrapn, sapbr, httpinit, httppara, httpdata, httpaction, tspost, tshost, tsconn, tscont, tscontlen, httpapi, 
+  httpcid, httpterm, key, field1, field2, field3, field4, apikey, tsaddress, field5, field6, field7, field8, httptalkback1, httptalkback2, talkbackapi, httptalkback3 };
 
 char progbuffer[65];    // make sure this is large enough for the largest string it must hold
 
@@ -200,7 +209,6 @@ void initialiseADC() {
 }
 
 void initialiseEthernet() {
-  
   client.stop();
   if (Ethernet.begin(mac) == 0) {
     Terminal.println("Failed using DHCP");
@@ -457,8 +465,12 @@ void httpGetCommand(void* context) {
   Terminal.println(emon.apparentPower);
   Terminal.println(emon.powerFactor);
   Terminal.println();
-  
+
+  strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[20])));
   String tsData = progbuffer;
+  strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[25]))); // writeApiKey
+  tsData += progbuffer;
+  
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[21])));
   tsData += progbuffer;
   voltage = emon.Vrms;
@@ -501,18 +513,24 @@ void httpGetCommand(void* context) {
   dtostrf(hum,6,2,smeasure);
   tsData += deblank(smeasure);
   
-//  Terminal.println("Sending...");
-  // Disconnect from ThingSpeak
-  if (!client.connected() && lastConnected)
-  {
-//    Terminal.print("Stop");
-    client.stop();
-  }
+//  Terminal.println(tsData);
   
+//  Terminal.println("Sending...");
+
+  // Disconnect from ThingSpeak
+  if (!client.connected() && lastConnected) {
+    client.stop();
+  }  
+  // Update ThingSpeak
+  if(!client.connected()) {
+    sendUsingEthernet(tsData);
+  }
+
+  client.stop();  
   // Update ThingSpeak
   if(!client.connected())
   {
-    sendUsingEthernet(tsData);
+    getUsingEthernet();
   }
   
   if (failedCounter > 1 ) {
@@ -529,7 +547,7 @@ void httpGetCommand(void* context) {
 }
 
 void loop()
-{
+{  
   t.update();
 }
 
@@ -543,10 +561,11 @@ void clearBufferArray()              // function to clear buffer array
 
 uint8_t sendUsingEthernet(String tsData)
 {
-//  Terminal.println("Try key");
+//  Terminal.println("Send");
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[26]))); // ThingSpeak address
   if (client.connect(progbuffer, 80))
   {
+    // update
     strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[12]))); // POST
     client.print(progbuffer);
     strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[13]))); // Host
@@ -560,22 +579,87 @@ uint8_t sendUsingEthernet(String tsData)
     client.print(tsData.length());
     client.print("\n\n");
     client.print(tsData);
-    lastConnectionTime = millis();
+    lastConnectionTime = millis();  
     
-    if (client.connected())
-    {
-//      Terminal.println("TS Ok");
+    if (client.connected()) {
       failedCounter = 0;
       resetCounter = 0;
     }
-    else
-    {
-//      Terminal.println("TS Fail");
-      failedCounter++;
-    }    
+    else {
+      failedCounter++; 
+    }
   }
-  else
+  else {
+    failedCounter++;
+    lastConnectionTime = millis(); 
+  }
+}
+
+uint8_t getUsingEthernet()
+{
+//  Terminal.println("Get");
+  strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[26]))); // ThingSpeak address
+  if (client.connect(progbuffer, 80))
   {
+    // talkback
+    String talkbackData = "";
+    strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[31]))); // httptalkback1
+    talkbackData = progbuffer;
+    talkbackData += talkbackId;
+    strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[32]))); // httptalkback2        
+    talkbackData += progbuffer;
+    strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[33]))); // talkbackapi
+    talkbackData += progbuffer;
+    strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[34]))); // httptalkback3
+    talkbackData += progbuffer;
+    client.println(talkbackData); // GET /talkbacks/...
+
+    strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[13]))); // Host
+    client.print(progbuffer);
+    strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[14]))); // Conn
+    client.print(progbuffer);
+    strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[15]))); // Cont
+    client.print(progbuffer);
+    client.println();
+    lastConnectionTime = millis();  
+    
+    Terminal.println(talkbackData);
+    delay(1000);
+    while(client.connected() && !client.available()) delay(1);
+//    b = 0;
+//    c = 0;
+//    it = 0;
+//    respState = 0;
+    while (client.available()) {
+//      b = c;
+      c = client.read();
+      Terminal.print(c);
+      if (( b == '\n' ) && ( c == '\n' )) {
+        respState = 1;
+      }
+      else {
+        respState = 0;
+      }
+      if (respState == 1) {
+        command[it] = c;
+        it++;
+      }
+    }
+    Terminal.println(command);
+    digitalWrite(latchPin, LOW);
+    shiftOut(dataPin, clockPin, shiftData[0]);
+    shiftOut(dataPin, clockPin, shiftData[1]);
+    digitalWrite(latchPin, HIGH);
+      
+    if (client.connected()) {
+      failedCounter = 0;
+      resetCounter = 0;
+    }
+    else {
+      failedCounter++; 
+    }
+  }
+  else {
     failedCounter++;
     lastConnectionTime = millis(); 
   }
