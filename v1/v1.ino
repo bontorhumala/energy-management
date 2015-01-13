@@ -21,7 +21,8 @@
 EnergyMonitor emon;             // Create an instance
 
 Timer t;
-byte mac[] = { 0xDE, 0xAD, 0xEB, 0xEF, 0xEF, 0xDE };
+byte mac[] = { 
+  0xDE, 0xAD, 0xEB, 0xEF, 0xEF, 0xDE };
 const int updateThingSpeakInterval = 15 * 1000;      // Time interval in milliseconds to update ThingSpeak (number of seconds * 1000 = interval)
 
 // Variable Setup
@@ -53,7 +54,8 @@ char respState = 0;
 char command[8];
 
 // holders for infromation you're going to pass to shifting function
-byte shiftData[] = {0x00, 0x00};
+byte shiftData[] = {
+  0x00, 0x00};
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -95,7 +97,8 @@ prog_char talkbackapi[] PROGMEM = "CMHR0FOE7J1DU7VP";
 prog_char httptalkback3[] PROGMEM = " HTTP/1.0";
 
 PROGMEM const char *string_table[] = 
-{ cgatt, cstt, ciicr, cifsr, cdnscfg, sapbrcon, sapbrapn, sapbr, httpinit, httppara, httpdata, httpaction, tspost, tshost, tsconn, tscont, tscontlen, httpapi, 
+{ 
+  cgatt, cstt, ciicr, cifsr, cdnscfg, sapbrcon, sapbrapn, sapbr, httpinit, httppara, httpdata, httpaction, tspost, tshost, tsconn, tscont, tscontlen, httpapi, 
   httpcid, httpterm, key, field1, field2, field3, field4, apikey, tsaddress, field5, field6, field7, field8, httptalkback1, httptalkback2, talkbackapi, httptalkback3 };
 
 char progbuffer[65];    // make sure this is large enough for the largest string it must hold
@@ -106,10 +109,10 @@ char* deblank(char* input)
   char *output=input;
   for (i = 0, j = 0; i<strlen(input); i++,j++)          
   {
-      if (input[i]!=' ')                           
-          output[j]=input[i];                     
-      else
-          j--;                                     
+    if (input[i]!=' ')                           
+      output[j]=input[i];                     
+    else
+      j--;                                     
   }
   output[j]=0;
   return output;
@@ -202,8 +205,8 @@ boolean waitIp() {
 
 void initialiseADC() {
   Vcc = readVcc()/1000.0;
-//  Terminal.print("Vcc: ");
-//  Terminal.println(Vcc);  
+  //  Terminal.print("Vcc: ");
+  //  Terminal.println(Vcc);  
   analogReference(DEFAULT);
   delay(10);
 }
@@ -224,7 +227,7 @@ void initialiseGPRS() {
   uint8_t incomingByte = 0;
   boolean timeout = false;
   unsigned long time;
-  
+
   while (state == 0) {
     Serial.println("AT");
     delay(100);
@@ -239,17 +242,17 @@ void initialiseGPRS() {
     {
       incomingByte=Serial.read(); // writing data into array      
       buffer[count++]=incomingByte; // writing data into array
-//      Terminal.write(incomingByte);
+      //      Terminal.write(incomingByte);
       if(count == 64)break;
     }
     if (waitOk()) {
-//      Terminal.println("OK");
+      //      Terminal.println("OK");
       state=2;
     }
     else {
       state=0;
       setupSimCom();
-//      Terminal.println("NA");
+      //      Terminal.println("NA");
     }
     clearBufferArray();              // call clearBufferArray function to clear the storaged data from the array
     count = 0;                       // set counter of while loop to zero 
@@ -270,18 +273,18 @@ void initialiseGPRS() {
     {
       incomingByte=Serial.read(); // writing data into array      
       buffer[count++]=incomingByte; // writing data into array
-//      Terminal.write(incomingByte);
+      //      Terminal.write(incomingByte);
       if(count == 64)break;
     }
     if (waitOk()) {
       state=3;
-//      Terminal.println("CG");
-//      Terminal.println("AT CGATT finished");
+      //      Terminal.println("CG");
+      //      Terminal.println("AT CGATT finished");
     }
     else {
       state=2;
-//      Terminal.println("NA"); 
-//      Terminal.println("AT CGATT restarted");
+      //      Terminal.println("NA"); 
+      //      Terminal.println("AT CGATT restarted");
     }
     clearBufferArray();              // call clearBufferArray function to clear the storaged data from the array
     count = 0;                       // set counter of while loop to zero 
@@ -302,16 +305,16 @@ void initialiseGPRS() {
     {
       incomingByte=Serial.read(); // writing data into array      
       buffer[count++]=incomingByte; // writing data into array
-//      Terminal.write(incomingByte);
+      //      Terminal.write(incomingByte);
       if(count == 64)break;      
     }
     if (waitOk()) {
       state=4;
-//      Terminal.println("AT CSTT finished");      
+      //      Terminal.println("AT CSTT finished");      
     }
     else {
       state=3;
-//      Terminal.println("AT CSTT restarted");      
+      //      Terminal.println("AT CSTT restarted");      
     }
     clearBufferArray();              // call clearBufferArray function to clear the storaged data from the array
     count = 0;                       // set counter of while loop to zero
@@ -332,17 +335,17 @@ void initialiseGPRS() {
     {
       incomingByte=Serial.read(); // writing data into array      
       buffer[count++]=incomingByte; // writing data into array
-//      Terminal.write(incomingByte);
+      //      Terminal.write(incomingByte);
       if(count == 12) break;
     }
     if (waitOk()) {
       state=5;
-//      Terminal.println("CIICR");
-//      Terminal.println("AT CIICR finished");      
+      //      Terminal.println("CIICR");
+      //      Terminal.println("AT CIICR finished");      
     }
     else {
       state=4;
-//      Terminal.println("AT CIICR restarted");      
+      //      Terminal.println("AT CIICR restarted");      
     }
     clearBufferArray();              // call clearBufferArray function to clear the storaged data from the array
     count = 0;                       // set counter of while loop to zero
@@ -366,12 +369,12 @@ void initialiseGPRS() {
     }
     if (waitIp()) {
       state=6;
-//      Terminal.println("CIFSR");
-//      Terminal.println("AT CIFSR finished");      
+      //      Terminal.println("CIFSR");
+      //      Terminal.println("AT CIFSR finished");      
     }
     else {
       state=5;
-//      Terminal.println("AT CIFSR restarted");      
+      //      Terminal.println("AT CIFSR restarted");      
     }
     clearBufferArray();              // call clearBufferArray function to clear the storaged data from the array
     count = 0;                       // set counter of while loop to zero
@@ -395,37 +398,37 @@ void initialiseGPRS() {
     }
     if (waitOk()) {
       state=7;
-//      Terminal.println("CDNS");
-//      Terminal.println("AT CDNSCFG finished");      
+      //      Terminal.println("CDNS");
+      //      Terminal.println("AT CDNSCFG finished");      
     }
     else {
       state=6;
-//      Terminal.println("AT CDNSCFG restarted");      
+      //      Terminal.println("AT CDNSCFG restarted");      
     }
     clearBufferArray();              // call clearBufferArray function to clear the storaged data from the array
     count = 0;                       // set counter of while loop to zero
   }
 
-//  Terminal.println("SAPBR");
+  //  Terminal.println("SAPBR");
 
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[5])));
   Serial.println(progbuffer);
   delay(2000);
 
-//  Terminal.println("SAPBR 1");
+  //  Terminal.println("SAPBR 1");
 
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[6])));
   Serial.println(progbuffer);
   delay(5000);
 
-//  Terminal.println("SAPBR 2");
+  //  Terminal.println("SAPBR 2");
 
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[7])));
   Serial.println(progbuffer);
   delay(4000);
   if (Serial.available())              // if date is comming from softwareserial port ==> data is comming from PC
   {
-//  Terminal.println("SAP");
+    //  Terminal.println("SAP");
     while(Serial.available())          // reading data into char array 
     {
       buffer[count++]=Serial.read();     // writing data into array
@@ -434,7 +437,7 @@ void initialiseGPRS() {
     clearBufferArray();              // call clearBufferArray function to clear the storaged data from the array
     count = 0;                       // set counter of while loop to zero 
   }
-//  Terminal.println("Sim");
+  //  Terminal.println("Sim");
 }
 
 void setup()
@@ -450,7 +453,7 @@ void setup()
   emon.voltage(1, 451.813, 2.0);  // Voltage: input pin, calibration, phase_shift. 2,0 is still not correct
   emon.current(0, 111.1);  // Current: input pin, calibration.  
   t.every(intervalGetCommand, httpGetCommand, 0);
-//  Terminal.println("");
+  //  Terminal.println("");
 }
 
 // send data periodically - try using ethernet. if failed, send using GPRS
@@ -470,19 +473,19 @@ void httpGetCommand(void* context) {
   String tsData = progbuffer;
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[25]))); // writeApiKey
   tsData += progbuffer;
-  
+
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[21])));
   tsData += progbuffer;
   voltage = emon.Vrms;
   dtostrf(voltage,6,2,smeasure);
   tsData += deblank(smeasure);
-  
+
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[22])));
   tsData += progbuffer;
   current = emon.Irms;
   dtostrf(current,6,2,smeasure);
   tsData += deblank(smeasure);
-  
+
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[23])));
   tsData += progbuffer;
   power = emon.realPower;
@@ -512,10 +515,10 @@ void httpGetCommand(void* context) {
   hum = dht.readHumidity();
   dtostrf(hum,6,2,smeasure);
   tsData += deblank(smeasure);
-  
-//  Terminal.println(tsData);
-  
-//  Terminal.println("Sending...");
+
+  //  Terminal.println(tsData);
+
+  //  Terminal.println("Sending...");
 
   // Disconnect from ThingSpeak
   if (!client.connected() && lastConnected) {
@@ -532,7 +535,7 @@ void httpGetCommand(void* context) {
   {
     getUsingEthernet();
   }
-  
+
   if (failedCounter > 1 ) {
     sendUsingGPRS(tsData);  // if ethernet restarted 3 times, send using GPRS  
     resetCounter++;
@@ -540,7 +543,7 @@ void httpGetCommand(void* context) {
   }
   lastConnected = client.connected();
   client.stop();
-  
+
   if ( resetCounter > 3 ) {
     sendUsingGPRS(tsData);  // if ethernet restarted 3 times, send using GPRS  
   }
@@ -561,7 +564,7 @@ void clearBufferArray()              // function to clear buffer array
 
 uint8_t sendUsingEthernet(String tsData)
 {
-//  Terminal.println("Send");
+  //  Terminal.println("Send");
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[26]))); // ThingSpeak address
   if (client.connect(progbuffer, 80))
   {
@@ -580,7 +583,7 @@ uint8_t sendUsingEthernet(String tsData)
     client.print("\n\n");
     client.print(tsData);
     lastConnectionTime = millis();  
-    
+
     if (client.connected()) {
       failedCounter = 0;
       resetCounter = 0;
@@ -597,7 +600,7 @@ uint8_t sendUsingEthernet(String tsData)
 
 uint8_t getUsingEthernet()
 {
-//  Terminal.println("Get");
+  //  Terminal.println("Get");
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[26]))); // ThingSpeak address
   if (client.connect(progbuffer, 80))
   {
@@ -622,7 +625,7 @@ uint8_t getUsingEthernet()
     client.print(progbuffer);
     client.println();
     lastConnectionTime = millis();  
-    
+
     Terminal.println(talkbackData);
     delay(1000);
     while(client.connected() && !client.available()) delay(1);
@@ -631,23 +634,25 @@ uint8_t getUsingEthernet()
     while (client.available()) {
       c = client.read();
       if (( b == '&' ) && ( c == '&' )) {
-        Terminal.println("on");
+        Terminal.print("on ");
         command[it] = 1;
         it++;
       }
       else if (( b == '#' ) && ( c == '#' )) {
-        Terminal.println("off");
+        Terminal.print("off ");
         command[it] = 0;
         it++;
       }
       b = c;
     }
-    Terminal.println(command);
+    String scommand(command);
+    Terminal.println(scommand);
+
     digitalWrite(latchPin, LOW);
     shiftOut(dataPin, clockPin, shiftData[0]);
     shiftOut(dataPin, clockPin, shiftData[1]);
     digitalWrite(latchPin, HIGH);
-      
+
     if (client.connected()) {
       failedCounter = 0;
       resetCounter = 0;
@@ -666,7 +671,7 @@ uint8_t sendUsingGPRS (String tsData) {
   uint8_t incomingByte = 0;
   boolean timeout = false;
   unsigned long time;
-  
+
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[8]))); // HTTPINIT
   Serial.println(progbuffer);
   delay(2000);
@@ -704,11 +709,11 @@ uint8_t sendUsingGPRS (String tsData) {
     Serial.print(progbuffer); //submit the request;
     Serial.print(tsData.length());
     Serial.println(",10000");
- 
-//    Terminal.print(progbuffer);
-//    Terminal.print(tsData.length());
-//    Terminal.println(",10000");
-    
+
+    //    Terminal.print(progbuffer);
+    //    Terminal.print(tsData.length());
+    //    Terminal.println(",10000");
+
     delay(100);
     timeout = false;
     time = millis();
@@ -721,15 +726,15 @@ uint8_t sendUsingGPRS (String tsData) {
     {
       incomingByte=Serial.read(); // writing data into array      
       buffer[count++]=incomingByte; // writing data into array
-//      Terminal.write(incomingByte);
+      //      Terminal.write(incomingByte);
       if(count == 64)break;
     }
     if (waitDownload()) {
-//      Terminal.println("Dl Ok");
+      //      Terminal.println("Dl Ok");
       state=8;      
     }
     else {
-//      Terminal.println("Dl Rst");
+      //      Terminal.println("Dl Rst");
       state=7;
     }
     clearBufferArray();
@@ -749,26 +754,26 @@ uint8_t sendUsingGPRS (String tsData) {
     {
       incomingByte=Serial.read();
       buffer[count++]=incomingByte;
-//      Terminal.write(incomingByte);
+      //      Terminal.write(incomingByte);
       if(count == 64)break;
     }
     if (waitOk()) {
-//      Terminal.println("Dt Ok");
+      //      Terminal.println("Dt Ok");
       state=9;
     }
     else {
-//      Terminal.println("Dt Rst");
+      //      Terminal.println("Dt Rst");
       state=8;
     }
     clearBufferArray();
     count = 0;
   }
-  
-//  Terminal.println("Ac");    
+
+  //  Terminal.println("Ac");    
   strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[11]))); // HTTPACTION
   Serial.println(progbuffer); //submit the request
   delay(10000);
-//  Terminal.println("Ac2");
+  //  Terminal.println("Ac2");
   if (Serial.available())
   {
     while(Serial.available()) 
@@ -780,24 +785,24 @@ uint8_t sendUsingGPRS (String tsData) {
     clearBufferArray();
     count = 0;
   }
-//  Terminal.println("Te");  
-//  strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[19]))); // HTTPTERM
-//  Serial.println(progbuffer);
-//  delay(1000);
-//  if (Serial.available())
-//  {
-//    while(Serial.available())
-//    {
-//      incomingByte=Serial.read();
-//      buffer[count++]=incomingByte;
-//      if(count == 64)break;
-//    }
-//    clearBufferArray();
-//    count = 0;
-//  }
-  
+  //  Terminal.println("Te");  
+  //  strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[19]))); // HTTPTERM
+  //  Serial.println(progbuffer);
+  //  delay(1000);
+  //  if (Serial.available())
+  //  {
+  //    while(Serial.available())
+  //    {
+  //      incomingByte=Serial.read();
+  //      buffer[count++]=incomingByte;
+  //      if(count == 64)break;
+  //    }
+  //    clearBufferArray();
+  //    count = 0;
+  //  }
+
   state = 7;
-//  Terminal.println("GPRS");  
+  //  Terminal.println("GPRS");  
   return 1;
 }
 
@@ -846,4 +851,5 @@ void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
   //stop shifting
   digitalWrite(myClockPin, 0);
 }
+
 
