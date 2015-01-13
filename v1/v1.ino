@@ -626,24 +626,21 @@ uint8_t getUsingEthernet()
     Terminal.println(talkbackData);
     delay(1000);
     while(client.connected() && !client.available()) delay(1);
-//    b = 0;
-//    c = 0;
-//    it = 0;
-//    respState = 0;
+    it = 0;
+    respState = 0;
     while (client.available()) {
-//      b = c;
       c = client.read();
-      Terminal.print(c);
-      if (( b == '\n' ) && ( c == '\n' )) {
-        respState = 1;
-      }
-      else {
-        respState = 0;
-      }
-      if (respState == 1) {
-        command[it] = c;
+      if (( b == '&' ) && ( c == '&' )) {
+        Terminal.println("on");
+        command[it] = 1;
         it++;
       }
+      else if (( b == '#' ) && ( c == '#' )) {
+        Terminal.println("off");
+        command[it] = 0;
+        it++;
+      }
+      b = c;
     }
     Terminal.println(command);
     digitalWrite(latchPin, LOW);
