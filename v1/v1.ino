@@ -18,12 +18,6 @@
 #define DHTPIN 7
 #define DHTTYPE DHT22
 
-//holders for infromation you're going to pass to shifting function
-byte dataOne;
-byte dataTwo;
-byte dataArrayOne[10];
-byte dataArrayTwo[10];
-
 EnergyMonitor emon;             // Create an instance
 
 Timer t;
@@ -50,6 +44,9 @@ unsigned int ADCValue;
 double Voltage;
 double Vcc;
 uint8_t state=0; // state of SimCom sequence
+
+// holders for infromation you're going to pass to shifting function
+byte shiftData[] = {0x00, 0x00};
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -85,9 +82,12 @@ prog_char field5[] PROGMEM = "&field5=";
 prog_char field6[] PROGMEM = "&field6=";
 prog_char field7[] PROGMEM = "&field7=";
 prog_char field8[] PROGMEM = "&field8=";
+prog_char httptalkback1[] PROGMEM = "AT+HTTPPARA=\"URL\",\"api.thingspeak.com/talkbacks/\"";
+prog_char httptalkback2[] PROGMEM = "/commands/last?api_key=";
 
 PROGMEM const char *string_table[] = 
-{ cgatt, cstt, ciicr, cifsr, cdnscfg, sapbrcon, sapbrapn, sapbr, httpinit, httppara, httpdata, httpaction, tspost, tshost, tsconn, tscont, tscontlen, httpapi, httpcid, httpterm, key, field1, field2, field3, field4, apikey, tsaddress, field5, field6, field7, field8 };
+{ cgatt, cstt, ciicr, cifsr, cdnscfg, sapbrcon, sapbrapn, sapbr, httpinit, httppara, httpdata, httpaction, tspost, tshost, tsconn, 
+  tscont, tscontlen, httpapi, httpcid, httpterm, key, field1, field2, field3, field4, apikey, tsaddress, field5, field6, field7, field8 };
 
 char progbuffer[65];    // make sure this is large enough for the largest string it must hold
 
@@ -417,7 +417,7 @@ void initialiseGPRS() {
   delay(4000);
   if (Serial.available())              // if date is comming from softwareserial port ==> data is comming from PC
   {
-//    Terminal.println("SAP");
+//  Terminal.println("SAP");
     while(Serial.available())          // reading data into char array 
     {
       buffer[count++]=Serial.read();     // writing data into array
@@ -553,7 +553,6 @@ uint8_t sendUsingEthernet(String tsData)
     client.print(progbuffer);
     strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[14]))); // Conn
     client.print(progbuffer);
-//    client.print("X-THINGSPEAKAPIKEY: "+writeAPIKey+"\n");
     strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[15]))); // Cont
     client.print(progbuffer);
     strcpy_P(progbuffer, (char*)pgm_read_word(&(string_table[16]))); // ContLen
@@ -726,7 +725,7 @@ void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
   // on the rising edge of the clock,
   // clock idles low
 
-  //internal function setup
+  // internal function setup
   int i=0;
   int pinState;
   pinMode(myClockPin, OUTPUT);
