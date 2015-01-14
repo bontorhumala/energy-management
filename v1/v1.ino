@@ -51,7 +51,7 @@ char b;
 char c;
 char it;
 char respState = 0;
-char command[8];
+byte command[8];
 
 // holders for infromation you're going to pass to shifting function
 byte shiftData[] = {
@@ -634,23 +634,28 @@ uint8_t getUsingEthernet()
     while (client.available()) {
       c = client.read();
       if (( b == '&' ) && ( c == '&' )) {
-        Terminal.print("on ");
-        command[it] = 1;
+//        Terminal.print("on ");
+        command[it] = 0; // active low
         it++;
       }
-      else if (( b == '#' ) && ( c == '#' )) {
-        Terminal.print("off ");
-        command[it] = 0;
+      if (( b == '#' ) && ( c == '#' )) {
+//        Terminal.print("off ");
+        command[it] = 1;
         it++;
       }
       b = c;
     }
-    String scommand(command);
-    Terminal.println(scommand);
 
+    byte bcommand = 0;
+    for ( byte i=0; i < 8; ++i ) {
+      bcommand |= (command[i] << (7-i));
+    }
+    
+    Terminal.println(bcommand, BIN);
+    
     digitalWrite(latchPin, LOW);
-    shiftOut(dataPin, clockPin, shiftData[0]);
-    shiftOut(dataPin, clockPin, shiftData[1]);
+    shiftOut(dataPin, clockPin, bcommand);
+    shiftOut(dataPin, clockPin, bcommand);
     digitalWrite(latchPin, HIGH);
 
     if (client.connected()) {
