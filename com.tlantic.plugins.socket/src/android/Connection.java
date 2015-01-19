@@ -98,7 +98,19 @@ public class Connection implements Runnable {
 	 * @param data information to be sent
 	 */
 	public void write(String data) {
-		this.writer.println(data);
+    try {
+      Log.d(LOG, "Socket write data: " + data);
+      this.writer = new PrintWriter(this.callbackSocket.getOutputStream(), true);
+  		this.writer.println(data);
+    } catch (UnknownHostException e1) {
+      // TODO Auto-generated catch block
+      Log.d(LOG, "UnknownHostException..." + e1);
+      e1.printStackTrace();
+    } catch (IOException e1) {
+      Log.d(LOG, "IO exception..." + e1);
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }    
 	}
 
 	/* (non-Javadoc)
@@ -113,30 +125,30 @@ public class Connection implements Runnable {
 		// creating connection
 		try {
       Log.d(LOG, "Creating...");
+
       InetAddress serverAddr = InetAddress.getByName(this.host);
 			this.callbackSocket = new Socket(serverAddr, this.port);
-			this.writer = new PrintWriter(this.callbackSocket.getOutputStream(), true);
       Log.d(LOG, "Created...");
-			this.reader = new BufferedReader(new InputStreamReader(callbackSocket.getInputStream()));
+			// this.reader = new BufferedReader(new InputStreamReader(callbackSocket.getInputStream()));
 
-			// receiving data chunk
-			while(!this.mustClose){
+			// // receiving data chunk
+			// while(!this.mustClose){
 
-				try {
+			// 	try {
 
-					if (this.isConnected()) {
-						chunk = reader.readLine();
+			// 		if (this.isConnected()) {
+			// 			chunk = reader.readLine();
 
-						if (chunk != null) {
-							chunk = chunk.replaceAll("\"\"", "null");
-							Log.d(LOG, "## RECEIVED DATA: " + chunk);
-							hook.sendMessage(this.host, this.port, chunk);
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			// 			if (chunk != null) {
+			// 				chunk = chunk.replaceAll("\"\"", "null");
+			// 				Log.d(LOG, "## RECEIVED DATA: " + chunk);
+			// 				hook.sendMessage(this.host, this.port, chunk);
+			// 			}
+			// 		}
+			// 	} catch (Exception e) {
+			// 		e.printStackTrace();
+			// 	}
+			// }
 
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block

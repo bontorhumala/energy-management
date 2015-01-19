@@ -27,35 +27,41 @@ var app = angular.module('starter')
         angular.forEach(results, function(result) {
           data = data.concat(result.data);
         });
+        var it = 0;
+        var offset = 0;        
         // console.log(data);
         for (var i=0; i<data.length; i++) {
-          if ( data[i].length>1 ) {
+          if ( data[i].length > 6 ) {
             for (var j=0; j<data[i].length; j++) {
-              // console.log($scope.channels[i+j]);
-              // console.log(data[i][j]);              
-              if (data[i][j] == '1') {
-                $scope.channels[i+j].status = true;
+              if ( (data[i][j] == '&') && (data[i][j+1] == '&') ) {
+                $scope.channels[it].status = true;
+                it++;
               }
-              else if (data[i][j] == '0') {
-                $scope.channels[i+j].status = false;
-              }              
+              else if ( (data[i][j] == '#') && (data[i][j+1] == '#') ) {
+                $scope.channels[it].status = false;
+                it++;
+              }
             }
           }
-          else if ( data[0].length>1 ) {
-            var offset = data[0].length - 1;
-            if (data[i] == '1') {
-              $scope.channels[i+offset].status = true;
+          else if ( data[i].length < 6 ) {
+            if ( (data[i][0] == '&') && (data[i][1] == '&') ) {
+              $scope.channels[it].status = true;
+              it++;
             }
-            else if (data[i] == '0') {
-              $scope.channels[i+offset].status = false;
+            else if ( (data[i][0] == '#') && (data[i][1] == '#') ) {
+              $scope.channels[it].status = false;
+              it++;
             }            
           }
           else {
-            if (data[i] == '1') {
-              $scope.channels[i].status = true;
+            // console.log($scope.channels[it]);
+            if ( (data[i][0] == '&') && (data[i][1] == '&') ) {
+              $scope.channels[it].status = true;
+              it++;
             }
-            else if (data[i] == '0') {
-              $scope.channels[i].status = false;
+            else if ( (data[i][0] == '#') && (data[i][1] == '#') ) {
+              $scope.channels[it].status = false;
+              it++;
             }
           }
         }
@@ -65,34 +71,38 @@ var app = angular.module('starter')
     $scope.sendCommand = function() {
       $scope.updateState();
       // console.log("sendCommand");
+      var numPanel = 0;
+      var numPlug = 0;      
       for(var i=0; i<$scope.devices.length; i++) {
         if ($scope.devices[i].type == "panel") {
-          var command = '';          
+          var command = '';
+          numPanel++;
           for (var j=0; j<$scope.devices[i].point.length; j++)
           {
             if ( $scope.channels[i+j].status == true ) {
-              command += '1';
+              command += "&&on";
             }
             else {
-              command += '0';
+              command += "##off";
             }
           } 
           $scope.devices[i].command = command;          
         }
         else if ($scope.devices[i].type == "plug") {
-          if ( $scope.devices[i].status == true ) {
-            $scope.devices[i].command = '1';
+          numPlug++;
+          if ( $scope.channels[numPanel*8+numPlug-1].status == true ) {
+            $scope.devices[i].command = "&&on";
           }
           else {
-            $scope.devices[i].command = '0';
+            $scope.devices[i].command = "##off";
           }
         }
       }
       // console.log($scope.devices);
       $scope.controlPromise = device.controlDevices( $scope.devices );
       $q.all( $scope.controlPromise ).then( function(results) {
-        console.log("controlPromise solved");
-        $scope.updateState();
+        // console.log("controlPromise solved");
+        // $scope.updateState();
       })
 
     }
