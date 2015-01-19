@@ -126,25 +126,24 @@ var app = angular.module('starter.controllers', [])
         angular.forEach(results, function(result) {
           data = data.concat(result.data);
         });
-        // console.log(data);
         var numberOn = 0;
         var numberOff = 0;
         for (var i=0; i<data.length; i++) {
           if ( data[i].length>1 ) {
             for (var j=0; j<data[i].length; j++) {
-              if (data[i][j] == '1') {
+              if ( (data[i][j] == '&') && (data[i][j+1] == '&') ) {
                 numberOn++;
               }
-              else if (data[i][j] == '0') {
+              else if ( (data[i][j] == '#') && (data[i][j+1] == '#') ) {
                 numberOff++;
               }              
             }
           }
           else {
-            if (data[i] == '1') {
+            if ( (data[i] == '&') && (data[i+1] == '&') ) {
               numberOn++;
             }
-            else if (data[i] == '0') {
+            else if ( (data[i] == '#') && (data[i+1] == '#') ) {
               numberOff++;
             }
           }
@@ -159,22 +158,22 @@ var app = angular.module('starter.controllers', [])
       for(var i=0; i<$scope.devices.length; i++) {
         if ($scope.devices[i].type == "plug") {
           if ( status == true ) {
-            $scope.devices[i].command = '1';
+            $scope.devices[i].command = "&&on";
           }
           else {
-            $scope.devices[i].command = '0';
+            $scope.devices[i].command = "##off";
           }
         }
         else if ($scope.devices[i].type == "panel") {
           var command = '';
           if ( status == true ) {
             for (var j=0; j<$scope.devices[i].point.length; j++) {
-              command += '1';
+              command += "&&on";
             }
           }
           else {
             for (var j=0; j<$scope.devices[i].point.length; j++) {
-              command += '0';
+              command += "##off";
             }
           }
           $scope.devices[i].command = command;          

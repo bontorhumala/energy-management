@@ -46,7 +46,7 @@ angular.module('starter')
     var httpExecPromises = [];
     for (var i=0; i<devices.length; i++) {
       httpPromises.push($http.post(talkbackBase + devices[i].talkbackId + '/commands', { api_key:devices[i].talkbackKey, command_string:devices[i].command, position:1}));
-      // console.log({ api_key:devices[i].talkbackKey, command_string:devices[i].command, position:1});
+      console.log({ api_key:devices[i].talkbackKey, command_string:devices[i].command, position:1});
       $q.all( httpPromises ).then( function(results) {
         for (var i=0; i<devices.length; i++) {
           httpExecPromises.push($http.post(talkbackBase + devices[i].talkbackId + '/commands/execute?api_key=' + devices[i].talkbackKey));

@@ -111,7 +111,7 @@ var app = angular.module('starter.controllers', [])
       $timeout(function() {
         $scope.updateState();
         $scope.intervalFunction();
-      }, 5000)
+      }, 10000)
     };
 
     // Kick off the interval

@@ -65,7 +65,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
           controller: 'ControlCtrl'
         }
       },
-      resolve: {      
+      resolve: {
         mapDevice: function (fireSite) {
           var devices = [];
           // console.log(fireSite);          
