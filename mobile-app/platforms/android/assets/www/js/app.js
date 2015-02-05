@@ -34,7 +34,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'd3', 'starter.direct
           controller: 'DashboardCtrl'
         }
       },
-      resolve: {      
+      resolve: {
         mapDevice: function (fireSite) {
           var devices = [];
           var channels = [];

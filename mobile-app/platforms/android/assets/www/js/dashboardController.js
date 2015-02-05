@@ -31,7 +31,8 @@ var app = angular.module('starter.controllers', [])
       $scope.graphPromise = device.getFeedLog($scope.devices[1].channelId, $scope.devices[1].readKey, 7, 15); // should be device 0
       $scope.graphPromise.then(function (data) {
         var feedData = data.data.feeds;
-        // console.log(feedData);
+        console.log(feedData);
+        device.parseGraph(feedData);        
         $scope.powerData = device.getGraph(feedData, 'field1', "Power");
       });
     }
@@ -111,7 +112,7 @@ var app = angular.module('starter.controllers', [])
       $timeout(function() {
         $scope.updateState();
         $scope.intervalFunction();
-      }, 10000)
+      }, 60000)
     };
 
     // Kick off the interval
@@ -183,7 +184,7 @@ var app = angular.module('starter.controllers', [])
       $scope.controlPromise = device.controlDevices( $scope.devices );
       $q.all( $scope.controlPromise ).then( function(results) {
         console.log("controlPromise solved");
-        $scope.updateState();
+        // $scope.updateState();
       })
     }
 

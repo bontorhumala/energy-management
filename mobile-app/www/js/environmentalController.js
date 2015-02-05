@@ -31,12 +31,13 @@ var app = angular.module('starter')
     $scope.humidityData = [];
 
     $scope.getGraph = function () {
-      $scope.graphPromise = device.getFeedLog($scope.devices[1].channelId, $scope.devices[1].readKey, 7, 15); // should be device 0
+      $scope.graphPromise = device.getFeedLog($scope.devices[0].channelId, $scope.devices[0].readKey, 7, 15); // should be device 0
       $scope.graphPromise.then(function (data) {
         var feedData = data.data.feeds;
-        // console.log(feedData);
-        // $scope.temperatureData = device.getGraph(feedData, 'field5', "Temperature");
-        // $scope.humidityData = device.getGraph(feedData, 'field6', "Humidity");
+        console.log(feedData);
+        device.parseGraph(feedData);        
+        $scope.temperatureData = device.getGraph(feedData, 'field5', "Temperature");
+        $scope.humidityData = device.getGraph(feedData, 'field6', "Humidity");
       });
     }
 

@@ -14,7 +14,7 @@ var app = angular.module('starter')
       $timeout(function() {
         $scope.intervalFunction();
         $scope.updateState();
-      }, 10000)
+      }, 60000)
     };
 
     // Kick off the interval
@@ -69,7 +69,7 @@ var app = angular.module('starter')
     }
 
     $scope.sendCommand = function() {
-      $scope.updateState();
+      // $scope.updateState();
       // console.log("sendCommand");
       var numPanel = 0;
       var numPlug = 0;      
@@ -102,7 +102,7 @@ var app = angular.module('starter')
       $scope.controlPromise = device.controlDevices( $scope.devices );
       $q.all( $scope.controlPromise ).then( function(results) {
         // console.log("controlPromise solved");
-        $scope.updateState();
+        // $scope.updateState();
       })
 
     }

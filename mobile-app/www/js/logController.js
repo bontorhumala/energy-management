@@ -9,13 +9,13 @@ var app = angular.module('starter')
     $scope.currentData = [];
 
     $scope.getGraph = function () {
-      $scope.graphPromise = device.getFeedLog($scope.devices[1].channelId, $scope.devices[1].readKey, 7, 15); // should be device 0
+      $scope.graphPromise = device.getFeedLog($scope.devices[0].channelId, $scope.devices[0].readKey, 7, 15); // should be device 0
       $scope.graphPromise.then(function (data) {
         var feedData = data.data.feeds;
-        // console.log(feedData);
+        device.parseGraph(feedData);
         $scope.powerData = device.getGraph(feedData, 'field1', "Power");
-        // $scope.voltageData = device.getGraph(feedData, 'field2', "Voltage");
-        // $scope.currentData = device.getGraph(feedData, 'field3', "Current");
+        $scope.voltageData = device.getGraph(feedData, 'field2', "Voltage");
+        $scope.currentData = device.getGraph(feedData, 'field3', "Current");
       });
     }
 

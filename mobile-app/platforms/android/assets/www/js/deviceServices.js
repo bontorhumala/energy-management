@@ -61,14 +61,24 @@ angular.module('starter')
     return moment(inputDate).valueOf();
   }
 
-  device.getGraph = function(feedLog, keyname, graphname) {
-    // console.log(feedLog);
-    // console.log(feedLog.length);    
+  device.parseGraph = function(feedLog, keyname, graphname) {
+    // console.log(feedLog.length);
     for (var i=0; i<feedLog.length; i++) {
-      feedLog[i][keyname] = parseFloat(parseFloat(feedLog[i][keyname]).toFixed(2));
       feedLog[i].created_at = feedLog[i].created_at.replace("T", "_");
       feedLog[i].created_at = feedLog[i].created_at.substring(0, feedLog[i].created_at.indexOf('+'));
+      // console.log(feedLog[i].created_at);
     }
+    // console.log(feedLog);
+    return feedLog;
+  }
+
+  device.getGraph = function(feedLog, keyname, graphname) {
+    // console.log(feedLog.length);
+    for (var i=0; i<feedLog.length; i++) {
+      feedLog[i][keyname] = parseFloat(parseFloat(feedLog[i][keyname]).toFixed(2));
+      // console.log(feedLog[i].created_at);
+    }
+    // console.log(feedLog);
     return feedLog;
   }
 
